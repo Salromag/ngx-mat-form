@@ -1,0 +1,33 @@
+<form class="dynamic-form" [formGroup]="ngxDynamicForm" name="{{ formSchema.name }}" id="{{ formSchema.id }}"
+      (ngSubmit)="submit()">
+
+  <div class="ngx-mat-dynamic-form" [style.gridTemplateColumns]="getGridTemplate()">
+    @for (field of formSchema.fields; track field.id) {
+      <div class="ngx-mat-field">
+        <ngx-mat-field [field]="field" [formGroup]="ngxDynamicForm"></ngx-mat-field>
+      </div>
+    }
+  </div>
+
+  <div class="ngx-mat-dynamic-form-buttons">
+    <button
+      type="button"
+      (click)="clear()"
+      mat-button
+      color="primary"
+      id="ngx-mat-dynamic-form-clear-btn">
+      {{ formSchema.labelButtons.clear }}
+    </button>
+
+    <button
+      [disabled]="!ngxDynamicForm.valid"
+      type="submit"
+      mat-flat-button
+      color="primary"
+      id="ngx-mat-dynamic-form-submit-btn">
+      {{ formSchema.labelButtons.submit }}
+    </button>
+  </div>
+</form>
+
+

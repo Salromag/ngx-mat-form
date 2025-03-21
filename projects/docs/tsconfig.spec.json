@@ -3,16 +3,13 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../out-tsc/lib",
-    "strictPropertyInitialization": false,
-    "declaration": true,
-    "declarationMap": true,
-    "inlineSources": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "types": []
+    "outDir": "../../out-tsc/spec",
+    "types": [
+      "jasmine"
+    ]
   },
-  "exclude": [
-    "**/*.spec.ts"
+  "include": [
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts"
   ]
 }

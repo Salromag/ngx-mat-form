@@ -3,16 +3,13 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../out-tsc/lib",
-    "strictPropertyInitialization": false,
-    "declaration": true,
-    "declarationMap": true,
-    "inlineSources": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
+    "outDir": "../../out-tsc/app",
     "types": []
   },
-  "exclude": [
-    "**/*.spec.ts"
+  "files": [
+    "src/main.ts"
+  ],
+  "include": [
+    "src/**/*.d.ts"
   ]
 }

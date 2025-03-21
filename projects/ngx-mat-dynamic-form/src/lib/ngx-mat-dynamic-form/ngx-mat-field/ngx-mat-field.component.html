@@ -1,0 +1,25 @@
+<ng-container [formGroup]="formGroup">
+  <mat-form-field [appearance]="field.appearance">
+    <mat-label>{{ field.label }}</mat-label>
+    <input
+      matInput
+      [type]="field.type"
+      [formControlName]="field.name"
+      [id]="field.id"
+      [name]="field.name"
+      [placeholder]="field.placeholder">
+    <!-- Errors -->
+    <mat-error *ngIf="formGroup.get(field.name)?.hasError('required')">
+      {{ field.label }} is required.
+    </mat-error>
+    <mat-error *ngIf="formGroup.get(field.name)?.hasError('pattern')">
+      {{ field.label }} does not match the allowed format.
+    </mat-error>
+    <mat-error *ngIf="formGroup.get(field.name)?.hasError('min')">
+      {{ field.label }} must be greater than {{ getValidatorValue(field, 'min') }}.
+    </mat-error>
+    <mat-error *ngIf="formGroup.get(field.name)?.hasError('max')">
+      {{ field.label }} must be less than {{ getValidatorValue(field, 'max') }}.
+    </mat-error>
+  </mat-form-field>
+</ng-container>

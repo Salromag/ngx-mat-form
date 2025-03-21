@@ -7,6 +7,9 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
+    "strictPropertyInitialization": false,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
     "paths": {
@@ -14,7 +17,6 @@
         "./dist/ngx-mat-dynamic-form"
       ]
     },
-    "esModuleInterop": true,
     "sourceMap": true,
     "declaration": false,
     "experimentalDecorators": true,
