@@ -7,6 +7,7 @@
 /bazel-out
 /node_modules
 projects/ngx-mat-dynamic-form/node_modules
+docs
 
 # Node
 /node_modules
@@ -44,3 +45,4 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+/projects/docs/

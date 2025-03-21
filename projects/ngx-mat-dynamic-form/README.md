@@ -1,63 +1,220 @@
 # NgxMatDynamicForm
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.0.
+This Angular library allows you to dynamically create forms based on a schema. It leverages Angular Reactive Forms and Angular Material components to generate forms with configurable fields, appearance, and validation. The library supports rendering forms dynamically by passing a schema that defines the fields, their types, validation rules, and appearance.
 
-## Code scaffolding
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Key Features
 
-```bash
-ng generate component component-name
-```
+- **Dynamic Form Generation**: Generate forms based on a schema, making it easy to create forms without manually defining each field.
+- **Field Types**: Support for multiple input types, such as text, email, number, and more.
+- **Validation**: Supports various Angular Validators (like `required`, `minLength`, `maxLength`, `pattern`, etc.), and validation rules can be customized per field.
+- **Appearance Customization**: The appearance of form fields can be easily customized using Angular Material styles (e.g., `Outline`, `Filled`).
+- **Responsive Layout**: The library allows for flexible layout management using grid columns, making it responsive to different screen sizes.
+- **Customizable Labels and Buttons**: Customize button labels (e.g., submit, clear) and field labels based on the schema configuration.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Example: How to Add the Dynamic Form Module to Your App
 
-```bash
-ng generate --help
-```
+To integrate the `NgxMatDynamicForm` library into your existing Angular application with Angular Material already set up, follow these steps:
 
-## Building
+### Step 1: Install the Library
 
-To build the library, run:
-
-```bash
-ng build ngx-mat-dynamic-form
-```
-
-This command will compile your project, and the build artifacts will be placed in the `dist/` directory.
-
-### Publishing the Library
-
-Once the project is built, you can publish your library by following these steps:
-
-1. Navigate to the `dist` directory:
-   ```bash
-   cd dist/ngx-mat-dynamic-form
-   ```
-
-2. Run the `npm publish` command to publish your library to the npm registry:
-   ```bash
-   npm publish
-   ```
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+First, install the `ngx-mat-dynamic-form` library from npm.
 
 ```bash
-ng test
+npm install ngx-mat-dynamic-form
 ```
 
-## Running end-to-end tests
+### Step 2: Import the Module
 
-For end-to-end (e2e) testing, run:
+In your `app.module.ts`, import the `NgxMatDynamicFormModule` from the library and ensure that the necessary Angular Material modules are also imported (if not already done).
 
-```bash
-ng e2e
+```typescript
+import { NgxMatDynamicFormModule } from 'ngx-mat-dynamic-form';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,  // Ensure Angular Material modules are imported
+    MatInputModule,
+    MatButtonModule,
+    NgxMatDynamicFormModule  // Import the dynamic form module
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+```
+## Use Case
+
+This library is ideal for situations where forms need to be generated dynamically based on a configuration or schema. It provides a simple and reusable way to create complex forms, improving developer productivity and ensuring consistent form structures across your application.
+
+## How It Works
+
+The schema is a JSON-like object that contains information about the form fields (such as field name, label, validators, input type, etc.), the layout (columns), and button labels. This schema is passed to a component which renders the form with appropriate validations and input types.
+
+Here is an example of how the schema looks:
+
+```typescript
+export const DynamicFormSchema: NgxMatDynamicForm = {
+  id: 'DynamicFormSchemaId',
+  name: 'DynamicFormSchemaName',
+  labelButtons: {
+    submit: "Submit",
+    clear: "Clear",
+  },
+  columns: 4,
+  fields: [
+    // Field definitions go here...
+  ]
+};
+```
+## `NgxMatDynamicForm` Properties
+
+The `NgxMatDynamicForm` schema defines the structure and configuration for a dynamic form. Below are the main properties you can use:
+
+### Properties
+
+- **`id`** (string)
+  - Unique identifier for the form.
+  - Example: `'DynamicFormSchemaId'`.
+
+- **`name`** (string)
+  - Name of the form, typically used for reference or accessibility purposes.
+  - Example: `'DynamicFormSchemaName'`.
+
+- **`labelButtons`** (object)
+  - Defines the labels for form buttons such as submit and clear.
+  - Properties:
+    - **`submit`** (string): Label for the submit button.
+    - **`clear`** (string): Label for the clear button.
+  - Example:
+    ```typescript
+    labelButtons: {
+      submit: 'Submit',
+      clear: 'Clear',
+    }
+    ```
+
+- **`columns`** (number)
+  - Defines the number of columns to be used for the form layout.
+  - Example: `4`.
+
+- **`fields`** (array of `NgxMatField`)
+  - Array that defines the form fields. Each field is an object of type `NgxMatField`.
+
+### `NgxMatField` Properties
+
+Each object in the `fields` array has the following properties:
+
+- **`id`** (string)
+  - Unique identifier for the field.
+  - Example: `'name-field'`.
+
+- **`name`** (string)
+  - Name of the field, used for the form control.
+  - Example: `'name'`.
+
+- **`label`** (string)
+  - The label displayed for the field.
+  - Example: `'Name'`.
+
+- **`appearance`** (enum: `NgxMatFieldAppearance`)
+  - Defines the appearance style of the field.
+  - Example: `NgxMatFieldAppearance.Outline`.
+
+- **`type`** (enum: `NgxFieldTypes`)
+  - Specifies the type of the input field (e.g., text, email, number).
+  - Example: `NgxFieldTypes.Text`.
+
+- **`placeholder`** (string)
+  - Placeholder text for the input field.
+  - Example: `'Enter your name'`.
+
+- **`validators`** (array of objects)
+  - Array of validation rules for the field.
+  - Each object contains:
+    - **`validator`** (string): The type of validator (e.g., `'required'`, `'minLength'`).
+    - **`value`** (any): The value associated with the validator (e.g., `true`, `10`, regex pattern).
+  - Example:
+    ```typescript
+    validators: [
+      {
+        validator: 'required',
+        value: true
+      },
+      {
+        validator: 'minLength',
+        value: 2
+      }
+    ]
+    ```
+
+### Example
+
+```typescript
+export const DynamicFormSchema: NgxMatDynamicForm = {
+  id: 'DynamicFormSchemaId',
+  name: 'DynamicFormSchemaName',
+  labelButtons: {
+    submit: 'Submit',
+    clear: 'Clear',
+  },
+  columns: 4,
+  fields: [
+    {
+      id: 'name-field',
+      name: 'name',
+      label: 'Name',
+      appearance: NgxMatFieldAppearance.Outline,
+      type: NgxFieldTypes.Text,
+      placeholder: 'Enter your name',
+      validators: [
+        {
+          validator: 'required',
+          value: true
+        }
+      ]
+    },
+    {
+      id: 'email-field',
+      name: 'email',
+      label: 'Email',
+      appearance: NgxMatFieldAppearance.Outline,
+      type: NgxFieldTypes.Email,
+      placeholder: 'Enter your email',
+      validators: [
+        {
+          validator: 'pattern',
+          value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
+        },
+        {
+          validator: 'required',
+          value: true
+        }
+      ]
+    }
+  ]
+};
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Benefits
 
-## Additional Resources
+- **Dynamic and Configurable**: Easily add or remove fields, change field types, or adjust validation rules based on the schema.
+- **Reusable**: The same schema can be reused across different parts of the application, reducing duplication and improving consistency.
+- **Consistent Design**: With Angular Material integration, the form automatically adheres to Material Design principles, ensuring a consistent user experience across your application.
+- **Flexible Layout**: Allows for responsive layout management using grid columns, adapting to different screen sizes.
+- **Easy to Use**: Create forms with minimal configuration, just by defining the fields and validation in the schema.
+- **Angular Reactive Forms Integration**: Fully integrates with Angular's Reactive Forms, offering powerful form control features like validation, error handling, and state management.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+This section describes the functionality and purpose of the library in English. You can add this to your `README.md` to give users an overview of how the library works and how it can be beneficial.
+
