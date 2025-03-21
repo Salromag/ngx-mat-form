@@ -18,6 +18,10 @@ export const ExampleMatDynamicForm: NgxMatDynamicForm = {
       appearance: NgxMatFieldAppearance.Outline,
       validators: [
         {
+          validator: 'required',
+          value: true
+        },
+        {
           validator: 'minLength',
           value: 5
         },
@@ -28,6 +32,28 @@ export const ExampleMatDynamicForm: NgxMatDynamicForm = {
       ],
       type: NgxFieldTypes.Text,
       placeholder: 'User name',
+    },
+    {
+      id: 'password-field',
+      name: 'password',
+      label: 'Password',
+      appearance: NgxMatFieldAppearance.Outline,
+      validators: [
+        {
+          validator: 'required',
+          value: true
+        },
+        {
+          validator: 'minLength',
+          value: 5
+        },
+        {
+          validator: 'maxLength',
+          value: 10
+        }
+      ],
+      type: NgxFieldTypes.Password,
+      placeholder: 'Password',
     },
     {
       id: 'address-field',

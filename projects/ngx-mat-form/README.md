@@ -1,4 +1,4 @@
-# NgxMatDynamicForm
+# NgxMatForm
 
 This Angular library allows you to dynamically create forms based on a schema. It leverages Angular Reactive Forms and Angular Material components to generate forms with configurable fields, appearance, and validation. The library supports rendering forms dynamically by passing a schema that defines the fields, their types, validation rules, and appearance.
 
