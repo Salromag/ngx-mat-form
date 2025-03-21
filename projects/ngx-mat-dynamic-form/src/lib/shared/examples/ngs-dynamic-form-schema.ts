@@ -2,14 +2,14 @@ import {NgxMatDynamicForm} from "../models/ngx-mat-dynamic-form.model";
 import {NgxMatFieldAppearance} from "../enums/ngx-mat-field-appeareance.enum";
 import {NgxFieldTypes} from "../enums/ngx-mat-field-types.enum";
 
-export const DynamicFormSchema: NgxMatDynamicForm = {
+export const ExampleMatDynamicForm: NgxMatDynamicForm = {
   id: 'DynamicFormSchemaId',
   name: 'DynamicFormSchemaName',
   labelButtons: {
     submit: "Submit",
     clear: "Clear",
   },
-  columns: 4,
+  columns: 3,
   fields: [
     {
       id: 'name-field',
@@ -19,7 +19,7 @@ export const DynamicFormSchema: NgxMatDynamicForm = {
       validators: [
         {
           validator: 'minLength',
-          value: 1
+          value: 5
         },
         {
           validator: 'maxLength',
@@ -28,6 +28,24 @@ export const DynamicFormSchema: NgxMatDynamicForm = {
       ],
       type: NgxFieldTypes.Text,
       placeholder: 'User name',
+    },
+    {
+      id: 'address-field',
+      name: 'address',
+      label: 'Address',
+      appearance: NgxMatFieldAppearance.Outline,
+      validators: [
+        {
+          validator: 'minLength',
+          value: 1
+        },
+        {
+          validator: 'maxLength',
+          value: 50
+        }
+      ],
+      type: NgxFieldTypes.Text,
+      placeholder: 'Address',
     },
     {
       id: 'email-field',

@@ -1,6 +1,27 @@
 {
   "name": "ngx-mat-dynamic-form",
   "version": "1.0.0",
+  "repository": {
+    "url": "https://github.com/Salromag/ngx-mat-dynamic-form"
+  },
+  "author": {
+    "name": "Salvador Romero Aguilar",
+    "email": "salromagu@gmail.com",
+    "url": "https://github.com/Salromag"
+  },
+  "keywords": [
+    "material",
+    "angular",
+    "forms",
+    "dynamic",
+    "library",
+    "component",
+    "dynamicforms",
+    "schema",
+    "json",
+    "ngx-mat-dynamic-form"
+  ],
+  "license": "ISC",
   "peerDependencies": {
     "@angular/common": "^19.2.0",
     "@angular/core": "^19.2.0",

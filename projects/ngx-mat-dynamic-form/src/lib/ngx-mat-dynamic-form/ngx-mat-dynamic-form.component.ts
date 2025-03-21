@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {DynamicFormSchema, NgxMatDynamicForm, NgxMatDynamicFormService, NgxMatField} from "../shared";
+import {ExampleMatDynamicForm, NgxMatDynamicForm, NgxMatDynamicFormService, NgxMatField} from "../shared";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
@@ -30,34 +30,18 @@ export class NgxMatDynamicFormComponent implements OnInit {
   createForm(): void {
     const formControls: any = {};
     this.formSchema.fields.forEach((field: NgxMatField) => {
-      formControls[field.name] = ['', this.addFieldValidators(field)];
+      formControls[field.name] = ['', this.ngxMatDynamicFormService.addFieldValidators(field)];
     });
     this.ngxDynamicForm = this.formBuilder.group(formControls);
   }
 
-  /**
-   * Add validators for fields
-   */
-  addFieldValidators(field: NgxMatField): any {
-    const validators: any[] = [];
-    field.validators?.forEach(config => {
-      if (config.validator && config.value) {
-        const validatorFunc = this.ngxMatDynamicFormService.getValidator(config.validator, config.value);
-        if (validatorFunc) {
-          validators.push(validatorFunc);
-        }
-      }
-    });
-    return validators;
-  }
-
   submit(): void {
     this.onSumbit.emit(this.ngxDynamicForm);
-    console.log(this.ngxDynamicForm.value);
   }
 
   clear(): void {
-    this.onReset.emit();
+    this.ngxDynamicForm.reset();
+    this.onReset.emit(this.ngxDynamicForm.value);
   }
 
   // Formatting form

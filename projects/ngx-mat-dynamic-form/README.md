@@ -12,11 +12,8 @@ This Angular library allows you to dynamically create forms based on a schema. I
 - **Responsive Layout**: The library allows for flexible layout management using grid columns, making it responsive to different screen sizes.
 - **Customizable Labels and Buttons**: Customize button labels (e.g., submit, clear) and field labels based on the schema configuration.
 
-## Example: How to Add the Dynamic Form Module to Your App
 
-To integrate the `NgxMatDynamicForm` library into your existing Angular application with Angular Material already set up, follow these steps:
-
-### Step 1: Install the Library
+### Installation
 
 First, install the `ngx-mat-dynamic-form` library from npm.
 
@@ -24,38 +21,32 @@ First, install the `ngx-mat-dynamic-form` library from npm.
 npm install ngx-mat-dynamic-form
 ```
 
-### Step 2: Import the Module
 
 In your `app.module.ts`, import the `NgxMatDynamicFormModule` from the library and ensure that the necessary Angular Material modules are also imported (if not already done).
 
 ```typescript
 import { NgxMatDynamicFormModule } from 'ngx-mat-dynamic-form';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule } from '@angular/material/button';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    BrowserModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,  // Ensure Angular Material modules are imported
-    MatInputModule,
-    MatButtonModule,
-    NgxMatDynamicFormModule  // Import the dynamic form module
+    ...
+      NgxMatDynamicFormModule  // Import the dynamic form module
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
 ```
-## Use Case
+## Component usage example
+```html
+<ngx-mat-dynamic-form
+        [formSchema]="dynamicFormSchema"
+        (onSumbit)="handleSumbit($event)"
+        (onReset)="handleReset($event)">
+</ngx-mat-dynamic-form>
 
-This library is ideal for situations where forms need to be generated dynamically based on a configuration or schema. It provides a simple and reusable way to create complex forms, improving developer productivity and ensuring consistent form structures across your application.
+```
 
 ## How It Works
 
@@ -81,7 +72,6 @@ export const DynamicFormSchema: NgxMatDynamicForm = {
 
 The `NgxMatDynamicForm` schema defines the structure and configuration for a dynamic form. Below are the main properties you can use:
 
-### Properties
 
 - **`id`** (string)
   - Unique identifier for the form.

@@ -1,7 +1,7 @@
 .dynamic-form {
   .ngx-mat-dynamic-form {
     display: grid;
-    gap: 16px; // Espaciado entre elementos
+    gap: 1rem;
     width: 100%;
     .ngx-mat-field {
       display: flex;
@@ -14,9 +14,11 @@
   }
 
   .ngx-mat-dynamic-form-buttons {
-    margin-top: 1rem;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    button:first-child {
+      margin-right: .5rem;
+    }
   }
 }

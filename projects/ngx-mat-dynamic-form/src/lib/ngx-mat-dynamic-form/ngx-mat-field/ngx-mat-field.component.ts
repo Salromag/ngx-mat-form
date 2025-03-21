@@ -20,7 +20,7 @@ export class NgxMatFieldComponent implements OnInit {
     }
   }
 
-  getValidatorValue(field: any, validatorName: string): any {
+  getValidatorValue(field: NgxMatField, validatorName: string): any {
     const validatorConfig = field.validators?.find((v: any) => v.validator === validatorName);
     return validatorConfig ? validatorConfig.value : null;
   }

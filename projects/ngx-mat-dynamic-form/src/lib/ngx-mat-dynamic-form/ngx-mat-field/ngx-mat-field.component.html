@@ -9,12 +9,23 @@
       [name]="field.name"
       [placeholder]="field.placeholder">
     <!-- Errors -->
+
+    <!-- Required -->
     <mat-error *ngIf="formGroup.get(field.name)?.hasError('required')">
       {{ field.label }} is required.
     </mat-error>
+    <!-- Pattern -->
     <mat-error *ngIf="formGroup.get(field.name)?.hasError('pattern')">
       {{ field.label }} does not match the allowed format.
     </mat-error>
+    <!-- Characters length -->
+    <mat-error *ngIf="formGroup.get(field.name)?.hasError('minlength')">
+      {{ field.label }} must contain at least {{ getValidatorValue(field, 'minLength') }} characters.
+    </mat-error>
+    <mat-error *ngIf="formGroup.get(field.name)?.hasError('maxlength')">
+      {{ field.label }} must not contain more than {{ getValidatorValue(field, 'maxLength') }} characters.
+    </mat-error>
+    <!-- Number quantity -->
     <mat-error *ngIf="formGroup.get(field.name)?.hasError('min')">
       {{ field.label }} must be greater than {{ getValidatorValue(field, 'min') }}.
     </mat-error>
