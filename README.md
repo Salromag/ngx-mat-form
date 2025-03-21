@@ -1,4 +1,4 @@
-# NgxMatDynamicForm
+# NgxMatForm
 
 This Angular library allows you to dynamically create forms based on a schema. It leverages Angular Reactive Forms and Angular Material components to generate forms with configurable fields, appearance, and validation. The library supports rendering forms dynamically by passing a schema that defines the fields, their types, validation rules, and appearance.
 
@@ -15,23 +15,23 @@ This Angular library allows you to dynamically create forms based on a schema. I
 
 ### Installation
 
-First, install the `ngx-mat-dynamic-form` library from npm.
+First, install the `ngx-mat-form` library from npm.
 
 ```bash
-npm install ngx-mat-dynamic-form
+npm install ngx-mat-form
 ```
 
 
-In your `app.module.ts`, import the `NgxMatDynamicFormModule` from the library and ensure that the necessary Angular Material modules are also imported (if not already done).
+In your `app.module.ts`, import the `NgxMatFormModule` from the library and ensure that the necessary Angular Material modules are also imported (if not already done).
 
 ```typescript
-import { NgxMatDynamicFormModule } from 'ngx-mat-dynamic-form';
+import { NgxMatFormModule } from 'ngx-mat-form';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     ...
-      NgxMatDynamicFormModule  // Import the dynamic form module
+      NgxMatFormModule  // Import the form module
   ],
   providers: [],
   bootstrap: [AppComponent]

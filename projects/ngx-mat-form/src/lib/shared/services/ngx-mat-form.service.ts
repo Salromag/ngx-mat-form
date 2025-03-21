@@ -6,7 +6,7 @@ import {NgxMatField} from "../models/ngx-mat-field.model";
 @Injectable({
   providedIn: 'root'
 })
-export class NgxMatDynamicFormService {
+export class NgxMatFormService {
 
   constructor() {
   }

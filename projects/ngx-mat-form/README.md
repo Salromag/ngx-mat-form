@@ -22,16 +22,16 @@ npm install ngx-mat-dynamic-form
 ```
 
 
-In your `app.module.ts`, import the `NgxMatDynamicFormModule` from the library and ensure that the necessary Angular Material modules are also imported (if not already done).
+In your `app.module.ts`, import the `NgxMatFormModule` from the library and ensure that the necessary Angular Material modules are also imported (if not already done).
 
 ```typescript
-import { NgxMatDynamicFormModule } from 'ngx-mat-dynamic-form';
+import { NgxMatFormModule } from 'ngx-mat-dynamic-form';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     ...
-      NgxMatDynamicFormModule  // Import the dynamic form module
+      NgxMatFormModule  // Import the dynamic form module
   ],
   providers: [],
   bootstrap: [AppComponent]

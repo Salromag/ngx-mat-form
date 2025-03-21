@@ -3,23 +3,23 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngx-mat-dynamic-form": {
+    "ngx-mat-form": {
       "projectType": "library",
-      "root": "projects/ngx-mat-dynamic-form",
-      "sourceRoot": "projects/ngx-mat-dynamic-form/src",
+      "root": "projects/ngx-mat-form",
+      "sourceRoot": "projects/ngx-mat-form/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/ngx-mat-dynamic-form/ng-package.json"
+            "project": "projects/ngx-mat-form/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/ngx-mat-dynamic-form/tsconfig.lib.prod.json"
+              "tsConfig": "projects/ngx-mat-form/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/ngx-mat-dynamic-form/tsconfig.lib.json"
+              "tsConfig": "projects/ngx-mat-form/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -27,7 +27,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "tsConfig": "projects/ngx-mat-dynamic-form/tsconfig.spec.json",
+            "tsConfig": "projects/ngx-mat-form/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
               "zone.js/testing"

@@ -1,14 +1,14 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ExampleMatDynamicForm, NgxMatDynamicForm, NgxMatDynamicFormService, NgxMatField} from "../shared";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {NgxMatDynamicForm, NgxMatFormService, NgxMatField} from "../shared";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
-  selector: 'ngx-mat-dynamic-form',
+  selector: 'ngx-mat-form',
   standalone: false,
-  templateUrl: './ngx-mat-dynamic-form.component.html',
-  styleUrls: ['./ngx-mat-dynamic-form.component.scss']
+  templateUrl: './ngx-mat-form.component.html',
+  styleUrls: ['./ngx-mat-form.component.scss']
 })
-export class NgxMatDynamicFormComponent implements OnInit {
+export class NgxMatFormComponent implements OnInit {
   @Input() formSchema: NgxMatDynamicForm;
   @Output() onSumbit: EventEmitter<FormGroup> = new EventEmitter();
   @Output() onReset: EventEmitter<void> = new EventEmitter();
@@ -17,7 +17,7 @@ export class NgxMatDynamicFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private ngxMatDynamicFormService: NgxMatDynamicFormService) {
+    private ngxMatDynamicFormService: NgxMatFormService) {
   }
 
   ngOnInit() {

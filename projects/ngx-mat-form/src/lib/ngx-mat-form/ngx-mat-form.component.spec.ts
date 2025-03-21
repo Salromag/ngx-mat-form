@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NgxMatDynamicFormComponent } from './ngx-mat-dynamic-form.component';
+import { NgxMatFormComponent } from './ngx-mat-form.component';
 
 describe('NgxMatDynamicFormComponent', () => {
-  let component: NgxMatDynamicFormComponent;
-  let fixture: ComponentFixture<NgxMatDynamicFormComponent>;
+  let component: NgxMatFormComponent;
+  let fixture: ComponentFixture<NgxMatFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxMatDynamicFormComponent]
+      imports: [NgxMatFormComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(NgxMatDynamicFormComponent);
+    fixture = TestBed.createComponent(NgxMatFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

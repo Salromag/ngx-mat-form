@@ -1,4 +1,4 @@
-import {NgxMatDynamicForm} from "../models/ngx-mat-dynamic-form.model";
+import {NgxMatDynamicForm} from "../models/ngx-mat-form.model";
 import {NgxMatFieldAppearance} from "../enums/ngx-mat-field-appeareance.enum";
 import {NgxFieldTypes} from "../enums/ngx-mat-field-types.enum";
 
