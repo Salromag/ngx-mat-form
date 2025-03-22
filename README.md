@@ -2,7 +2,6 @@
 
 This Angular library allows you to dynamically create forms based on a schema. It leverages Angular Reactive Forms and Angular Material components to generate forms with configurable fields, appearance, and validation. The library supports rendering forms dynamically by passing a schema that defines the fields, their types, validation rules, and appearance.
 
-
 ## Key Features
 
 - **Dynamic Form Generation**: Generate forms based on a schema, making it easy to create forms without manually defining each field.
@@ -17,8 +16,9 @@ This Angular library allows you to dynamically create forms based on a schema. I
 
 | NgxMatForm Version | Angular Version | Angular Material Version |
 |--------------------|-----------------|--------------------------|
-| `1.0.0`            | `19.x`          | `19.x`                   |
+| `1.2.0`            | `19.x`          | `19.x`                   |
 | `1.1.0`            | `19.x`          | `19.x`                   |
+| `1.0.0`            | `19.x`          | `19.x`                   |
 
 ### Installation
 
@@ -27,7 +27,6 @@ First, install the `ngx-mat-form` library from npm.
 ```bash
 npm install ngx-mat-form
 ```
-
 
 In your `app.module.ts`, import the `NgxMatFormModule` from the library and ensure that the necessary Angular Material modules are also imported (if not already done).
 
@@ -145,6 +144,22 @@ Each object in the `fields` array has the following properties:
   - Placeholder text for the input field.
   - Example: `'Enter your name'`.
 
+- **`availableValues`** (any[])
+  - Array of elements for a select type, and radio buttons
+  - Example: `[{id: 1, label: 'Example label option'}]`.
+
+- **`isSelectMultiple`** (boolean)
+  - Define if a select is multiple
+  - Example: `true`.
+
+- **`displayProperty`** (string)
+  - Define the displayed label for the availableValues list
+  - Example: `'label'`.
+
+- **`valueProperty`** (string)
+  - Define the value of the options of the availableValues list
+  - Example: `'id'`.
+
 - **`validators`** (array of objects)
   - Array of validation rules for the field.
   - Each object contains:
@@ -170,9 +185,12 @@ Each object in the `fields` array has the following properties:
 export const DynamicFormSchema: NgxMatDynamicForm = {
   id: 'DynamicFormSchemaId',
   name: 'DynamicFormSchemaName',
+  restoreForm: true,
+  storeKey: 'ngx.mat.form.schema.myfeature',
   labelButtons: {
     submit: 'Submit',
     clear: 'Clear',
+    buttonPosition: NgxMatFormButtonPositions.Left
   },
   columns: 4,
   fields: [
@@ -207,6 +225,22 @@ export const DynamicFormSchema: NgxMatDynamicForm = {
           value: true
         }
       ]
+    },
+    {
+      id: 'gender-field',
+      name: 'gender',
+      label: 'Gender',
+      type: NgxFieldTypes.Select,
+      appearance: NgxMatFieldAppearance.Outline,
+      placeholder: 'Select gender',
+      displayProperty : 'label',
+      valueProperty: 'id',
+      isSelectMultiple: true,
+      availableValues: [
+        { id: 1, label: 'Male' },
+        { id: 2, label: 'Female' },
+        { id: 3, label: 'Other' },
+      ],
     }
   ]
 };

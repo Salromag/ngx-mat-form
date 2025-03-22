@@ -8,7 +8,7 @@ export class NgxMatField {
   public type: NgxFieldTypes;
   public validators?: { validator: string, value: any }[];
   public appearance: NgxMatFieldAppearance;
-  public placeholder: string;
+  public placeholder?: string;
   public availableValues?: any[];
   public displayProperty?: string;
   public valueProperty?: string;

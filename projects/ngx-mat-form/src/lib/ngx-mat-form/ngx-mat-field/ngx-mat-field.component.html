@@ -1,62 +1,89 @@
 <ng-container [formGroup]="formGroup">
-  <mat-form-field [appearance]="field.appearance">
-    <mat-label>{{ field.label }}</mat-label>
-    @switch (field.type) {
-      @case ('textarea') {
-        <textarea
-          matInput
-          [formControlName]="field.name"
-          [id]="field.id"
-          [name]="field.name"
-          [placeholder]="field.placeholder">
+  @if (field.type === 'checkbox' || field.type === 'radio') {
+    <section class="ngx-mat-form-section">
+      @switch (field.type) {
+        @case ('checkbox') {
+          <mat-checkbox
+            color="primary"
+            [formControlName]="field.name"
+            [id]="field.id"
+            [name]="field.name">
+            {{ field.label }}
+          </mat-checkbox>
+        }
+        @case ('radio') {
+          <mat-radio-group
+            color="primary"
+            [id]="field.id"
+            [name]="field.name"
+            [formControlName]="field.name">
+            @for (option of field.availableValues; track option[radioValueProperty]) {
+              <mat-radio-button [value]="option[radioValueProperty]">
+                {{ option[radioDisplayProperty] }}
+              </mat-radio-button>
+            }
+          </mat-radio-group>
+        }
+      }
+    </section>
+    <!-- Mat form fields -->
+  } @else {
+    <mat-form-field [appearance]="field.appearance">
+      <mat-label>{{ field.label }}</mat-label>
+      @switch (field.type) {
+        @case ('textarea') {
+          <textarea
+            matInput
+            [formControlName]="field.name"
+            [id]="field.id"
+            [name]="field.name"
+            [placeholder]="field.placeholder || field.name">
         </textarea>
+        }
+        @case ('select') {
+          <mat-select
+            [formControlName]="field.name"
+            [id]="field.id"
+            [multiple]="field.isSelectMultiple || false">
+            @for (option of field.availableValues; track option[matSelectValue]) {
+              <mat-option [id]="option[matSelectValue]" [value]="option[matSelectValue]">
+                {{ option[matSelectDisplay] }}
+              </mat-option>
+            }
+          </mat-select>
+        }
+        @default {
+          <input
+            matInput
+            [type]="field.type"
+            [formControlName]="field.name"
+            [id]="field.id"
+            [name]="field.name"
+            [placeholder]="field.placeholder || field.name">
+        }
       }
-      @case ('select') {
-        <mat-select
-          [formControlName]="field.name"
-          [id]="field.id"
-          [multiple]="field.isSelectMultiple || false">
-          @for (option of field.availableValues; track option[matSelectValue]) {
-            <mat-option [id]="option[matSelectValue]"  [value]="option[matSelectValue]">
-              {{ option[matSelectDisplay] }}
-            </mat-option>
-          }
-        </mat-select>
-      }
-      @default {
-        <input
-          matInput
-          [type]="field.type"
-          [formControlName]="field.name"
-          [id]="field.id"
-          [name]="field.name"
-          [placeholder]="field.placeholder">
-      }
-    }
-
-    <!-- Errors -->
-
-    <!-- Required -->
-    <mat-error *ngIf="formGroup.get(field.name)?.hasError('required')">
-      {{ field.label }} is required.
-    </mat-error>
-    <!-- Pattern -->
-    <mat-error *ngIf="formGroup.get(field.name)?.hasError('pattern')">
-      {{ field.label }} does not match the allowed format.
-    </mat-error>
-    <!-- Characters length -->
-    <mat-error *ngIf="formGroup.get(field.name)?.hasError('minlength')">
-      {{ field.label }} must contain at least {{ getValidatorValue(field, 'minLength') }} characters.
-    </mat-error>
-    <mat-error *ngIf="formGroup.get(field.name)?.hasError('maxlength')">
-      {{ field.label }} must not contain more than {{ getValidatorValue(field, 'maxLength') }} characters.
-    </mat-error>
-    <!-- Number quantity -->
-    <mat-error *ngIf="formGroup.get(field.name)?.hasError('min')">
-      {{ field.label }} must be greater than {{ getValidatorValue(field, 'min') }}.
-    </mat-error>
-    <mat-error *ngIf="formGroup.get(field.name)?.hasError('max')">
-      {{ field.label }} must be less than {{ getValidatorValue(field, 'max') }}.
-    </mat-error>
-  </mat-form-field>
+      <!-- Required -->
+      <mat-error *ngIf="formGroup.get(field.name)?.hasError('required')">
+        {{ field.label }} is required.
+      </mat-error>
+      <!-- Pattern -->
+      <mat-error *ngIf="formGroup.get(field.name)?.hasError('pattern')">
+        {{ field.label }} does not match the allowed format.
+      </mat-error>
+      <!-- Characters length -->
+      <mat-error *ngIf="formGroup.get(field.name)?.hasError('minlength')">
+        {{ field.label }} must contain at least {{ getValidatorValue(field, 'minLength') }} characters.
+      </mat-error>
+      <mat-error *ngIf="formGroup.get(field.name)?.hasError('maxlength')">
+        {{ field.label }} must not contain more than {{ getValidatorValue(field, 'maxLength') }} characters.
+      </mat-error>
+      <!-- Number quantity -->
+      <mat-error *ngIf="formGroup.get(field.name)?.hasError('min')">
+        {{ field.label }} must be greater than {{ getValidatorValue(field, 'min') }}.
+      </mat-error>
+      <mat-error *ngIf="formGroup.get(field.name)?.hasError('max')">
+        {{ field.label }} must be less than {{ getValidatorValue(field, 'max') }}.
+      </mat-error>
+    </mat-form-field>
+  }
 </ng-container>

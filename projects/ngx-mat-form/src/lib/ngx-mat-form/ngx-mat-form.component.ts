@@ -33,7 +33,7 @@ export class NgxMatFormComponent implements OnInit {
   createForm(): void {
     const formControls: any = {};
     this.ngxMatFormSchema.fields.forEach((field: NgxMatField) => {
-      formControls[field.name] = ['', this.ngxMatFormService.addFieldValidators(field)];
+      formControls[field.name] = [null, this.ngxMatFormService.addFieldValidators(field)];
     });
     this.form = this.formBuilder.group(formControls);
   }

@@ -1,6 +1,7 @@
 import {NgxMatFormSchema} from "../models/ngx-mat-form-schema.model";
 import {NgxMatFieldAppearance} from "../enums/ngx-mat-field-appeareance.enum";
 import {NgxFieldTypes} from "../enums/ngx-mat-field-types.enum";
+import {NgxMatFormButtonPositions} from "../enums/ngx-mat-form-button-positions.enum";
 
 export const ExampleMatForm: NgxMatFormSchema = {
   id: 'ngx.mat.form.example1',
@@ -10,6 +11,7 @@ export const ExampleMatForm: NgxMatFormSchema = {
   labelButtons: {
     submit: "Submit",
     clear: "Clear",
+    buttonPosition: NgxMatFormButtonPositions.Left
   },
   columns: 3,
   fields: [
@@ -144,6 +146,44 @@ export const ExampleMatForm: NgxMatFormSchema = {
         { id: 2, label: 'Female' },
         { id: 3, label: 'Other' },
       ],
+    },
+    {
+      id: 'active-field',
+      name: 'active',
+      label: 'Active',
+      type: NgxFieldTypes.Checkbox,
+      appearance: NgxMatFieldAppearance.Outline,
+      validators: [
+        {
+          validator: 'required',
+          value: true
+        }
+      ]
+    },
+    {
+      id: 'plan-field',
+      name: 'plan',
+      label: 'Plan',
+      type: NgxFieldTypes.Radio,
+      appearance: NgxMatFieldAppearance.Outline,
+      validators: [
+        {
+          validator: 'required',
+          value: true
+        }
+      ],
+      availableValues: [
+        {
+          id: 1,
+          label: 'Business'
+        },
+        {
+          id: 2,
+          label: 'Premium'
+        }
+      ],
+      displayProperty: 'label',
+      valueProperty: 'id'
     }
   ]
 }

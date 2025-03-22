@@ -3,6 +3,7 @@
     display: grid;
     gap: 1rem;
     width: 100%;
+
     .ngx-mat-field {
       display: flex;
       justify-content: center;
@@ -17,8 +18,32 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
+
+    &.left {
+      justify-content: flex-start;
+    }
+
+    &.right {
+      justify-content: flex-end;
+    }
+
+    &.center {
+      justify-content: center;
+    }
+
     button:first-child {
       margin-right: .5rem;
     }
+  }
+}
+
+
+@media (max-width: 600px) {
+  .ngx-mat-dynamic-form {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ngx-mat-dynamic-form-buttons {
+    margin-top: 1rem;
   }
 }

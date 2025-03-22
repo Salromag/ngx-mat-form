@@ -1,4 +1,5 @@
 import {NgxMatField} from "./ngx-mat-field.model";
+import {NgxMatFormButtonPositions} from "../enums/ngx-mat-form-button-positions.enum";
 
 export class NgxMatFormSchema {
   public id: string;
@@ -8,6 +9,7 @@ export class NgxMatFormSchema {
   public labelButtons: {
     submit: string,
     clear: string,
+    buttonPosition: NgxMatFormButtonPositions
   };
   public columns: number;
 
@@ -20,7 +22,8 @@ export class NgxMatFormSchema {
     storeKey: string,
     labelButtons: {
       submit: string,
-      clear: string
+      clear: string,
+      buttonPosition: NgxMatFormButtonPositions,
     },
     columns: number,
     fields: any[]) {

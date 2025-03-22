@@ -14,6 +14,8 @@ export class NgxMatFieldComponent implements OnInit {
 
   matSelectValue: string;
   matSelectDisplay: string;
+  radioValueProperty: string;
+  radioDisplayProperty: string;
 
   constructor() {
   }
@@ -22,15 +24,23 @@ export class NgxMatFieldComponent implements OnInit {
     if (!this.formGroup.contains(this.field.name)) {
       this.formGroup.addControl(this.field.name, this.formGroup.get(this.field.name));
     }
-
-    if (this.field.type === NgxFieldTypes.Select) {
-      this.matSelectValue = this.field.valueProperty || 'id';
-      this.matSelectDisplay = this.field.displayProperty || 'name';
-    }
+    this.fillProperties();
   }
 
   getValidatorValue(field: NgxMatField, validatorName: string): any {
     const validatorConfig = field.validators?.find((v: any) => v.validator === validatorName);
     return validatorConfig ? validatorConfig.value : null;
+  }
+
+  private fillProperties(): void {
+    if (this.field.type === NgxFieldTypes.Select) {
+      this.matSelectValue = this.field.valueProperty || 'id';
+      this.matSelectDisplay = this.field.displayProperty || 'label';
+    }
+
+    if (this.field.type === NgxFieldTypes.Radio) {
+      this.radioValueProperty = this.field.valueProperty || 'id';
+      this.radioDisplayProperty = this.field.displayProperty || 'label';
+    }
   }
 }

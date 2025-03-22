@@ -9,7 +9,12 @@
     }
   </div>
 
-  <div class="ngx-mat-dynamic-form-buttons">
+  <div class="ngx-mat-dynamic-form-buttons"
+       [ngClass]="{
+       'left': ngxMatFormSchema.labelButtons.buttonPosition === 'left',
+       'right': ngxMatFormSchema.labelButtons.buttonPosition === 'right',
+       'center': ngxMatFormSchema.labelButtons.buttonPosition === 'center'
+       }">
     <button
       type="button"
       (click)="clear()"
