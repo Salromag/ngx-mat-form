@@ -1,10 +1,10 @@
-<form class="dynamic-form" [formGroup]="ngxMatForm" name="{{ formSchema.name }}" id="{{ formSchema.id }}"
+<form class="dynamic-form" [formGroup]="form" name="{{ ngxMatFormSchema.name }}" id="{{ ngxMatFormSchema.id }}"
       (ngSubmit)="submit()">
 
   <div class="ngx-mat-dynamic-form" [style.gridTemplateColumns]="getGridTemplate()">
-    @for (field of formSchema.fields; track field.id) {
+    @for (field of ngxMatFormSchema.fields; track field.id) {
       <div class="ngx-mat-field">
-        <ngx-mat-field [field]="field" [formGroup]="ngxMatForm"></ngx-mat-field>
+        <ngx-mat-field [field]="field" [formGroup]="form"></ngx-mat-field>
       </div>
     }
   </div>
@@ -16,16 +16,16 @@
       mat-stroked-button
       color="primary"
       id="ngx-mat-form-clear-btn">
-      {{ formSchema.labelButtons.clear }}
+      {{ ngxMatFormSchema.labelButtons.clear }}
     </button>
 
     <button
-      [disabled]="!ngxMatForm.valid"
+      [disabled]="!form.valid"
       type="submit"
       mat-flat-button
       color="primary"
       id="ngx-mat-form-submit-btn">
-      {{ formSchema.labelButtons.submit }}
+      {{ ngxMatFormSchema.labelButtons.submit }}
     </button>
   </div>
 

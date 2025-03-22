@@ -41,7 +41,7 @@ export class AppModule {}
 ## Component usage example
 ```html
 <ngx-mat-form
-        [formSchema]="dynamicFormSchema"
+        [schema]="dynamicFormSchema"
         (onSumbit)="handleSumbit($event)"
         (onReset)="handleReset($event)">
 </ngx-mat-form>

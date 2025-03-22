@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ValidatorFn, Validators} from "@angular/forms";
 import {NgxMatField} from "../models/ngx-mat-field.model";
-import {NgxMatForm} from "../models/ngx-mat-form.model";
+import {NgxMatFormSchema} from "../models/ngx-mat-form-schema.model";
 import {NgxFieldTypes} from "../enums/ngx-mat-field-types.enum";
 
 
@@ -31,11 +31,13 @@ export class NgxMatFormService {
     return validators;
   }
 
-
   /**
    * Fill available values for select
+   * @param fieldName Name of the field to override v
+   * @param availableValues Array of availableValues
+   * @param schema the NgxMatForm
    */
-  populateAvailableValues(fieldName: string, availableValues: any, schema: NgxMatForm): void {
+  setAvailableValues(fieldName: string, availableValues: any, schema: NgxMatFormSchema): void {
     schema.fields.forEach(field => {
       if (field.type === NgxFieldTypes.Select && field.name === fieldName) {
         field.availableValues = availableValues;
@@ -45,13 +47,13 @@ export class NgxMatFormService {
 
   /**
    * Set a property dynamically on a field
-   * @param fieldName - The field name of the desired change
+   * @param fieldName - The field to be modified
    * @param property - The property name to set
    * @param value - The value to assign to the property
    * @param schema - The schema object to modify
    * @returns The updated field object
    */
-  setProperty<T extends keyof NgxMatField>(fieldName: string, property: T, value: NgxMatField[T], schema: NgxMatForm): void {
+  setProperty<T extends keyof NgxMatField>(fieldName: string, property: T, value: NgxMatField[T], schema: NgxMatFormSchema): void {
     schema.fields.forEach(field => {
       if (field.name === fieldName) {
         field[property] = value;
@@ -81,6 +83,21 @@ export class NgxMatFormService {
         return Validators.maxLength(value);
       default:
         return null;
+    }
+  }
+
+  store(ngxMatForm: NgxMatFormSchema, formValues: any): void {
+    sessionStorage.setItem(ngxMatForm.storeKey || ngxMatForm.id, JSON.stringify(formValues));
+  }
+
+  restore(ngxMatForm: NgxMatFormSchema): any | null {
+    const storageKey = ngxMatForm.storeKey || ngxMatForm.id;
+    try {
+      const storedValue: string | null = sessionStorage.getItem(storageKey);
+      return storedValue ? JSON.parse(storedValue) : null;
+    } catch (error) {
+      console.error("Error parsing stored form data:", error);
+      return null;
     }
   }
 }

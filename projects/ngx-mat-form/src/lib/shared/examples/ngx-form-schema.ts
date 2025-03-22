@@ -1,10 +1,11 @@
-import {NgxMatForm} from "../models/ngx-mat-form.model";
+import {NgxMatFormSchema} from "../models/ngx-mat-form-schema.model";
 import {NgxMatFieldAppearance} from "../enums/ngx-mat-field-appeareance.enum";
 import {NgxFieldTypes} from "../enums/ngx-mat-field-types.enum";
 
-export const ExampleMatForm: NgxMatForm = {
+export const ExampleMatForm: NgxMatFormSchema = {
   id: 'ngx.mat.form.example1',
   name: 'ngx-mat-schema-example',
+  restoreForm: true,
   storeKey: 'ngx.mat.form.schema.myfeature',
   labelButtons: {
     submit: "Submit",

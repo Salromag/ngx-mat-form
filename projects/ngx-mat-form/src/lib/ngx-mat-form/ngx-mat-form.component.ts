@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {NgxMatForm, NgxMatFormService, NgxMatField} from "../shared";
+import {NgxMatFormSchema, NgxMatFormService, NgxMatField} from "../shared";
 import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
@@ -9,19 +9,22 @@ import {FormBuilder, FormGroup} from "@angular/forms";
   styleUrls: ['./ngx-mat-form.component.scss']
 })
 export class NgxMatFormComponent implements OnInit {
-  @Input() formSchema: NgxMatForm;
+  @Input() ngxMatFormSchema: NgxMatFormSchema;
   @Output() onSubmit: EventEmitter<FormGroup> = new EventEmitter();
   @Output() onReset: EventEmitter<void> = new EventEmitter();
 
-  ngxMatForm: FormGroup;
+  form: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
-    private ngxMatDynamicFormService: NgxMatFormService) {
+    private ngxMatFormService: NgxMatFormService) {
   }
 
   ngOnInit() {
     this.createForm();
+    if (this.ngxMatFormSchema.restoreForm) {
+      this.restoreFormValues();
+    }
   }
 
   /**
@@ -29,23 +32,34 @@ export class NgxMatFormComponent implements OnInit {
    */
   createForm(): void {
     const formControls: any = {};
-    this.formSchema.fields.forEach((field: NgxMatField) => {
-      formControls[field.name] = ['', this.ngxMatDynamicFormService.addFieldValidators(field)];
+    this.ngxMatFormSchema.fields.forEach((field: NgxMatField) => {
+      formControls[field.name] = ['', this.ngxMatFormService.addFieldValidators(field)];
     });
-    this.ngxMatForm = this.formBuilder.group(formControls);
+    this.form = this.formBuilder.group(formControls);
   }
 
   submit(): void {
-    this.onSubmit.emit(this.ngxMatForm);
+    if (this.ngxMatFormSchema.restoreForm) {
+      this.store();
+    }
+    this.onSubmit.emit(this.form);
   }
 
   clear(): void {
-    this.ngxMatForm.reset();
-    this.onReset.emit(this.ngxMatForm.value);
+    this.form.reset();
+    this.onReset.emit(this.form.value);
+  }
+
+  store(): void {
+    this.ngxMatFormService.store(this.ngxMatFormSchema, this.form.value);
+  }
+
+  restoreFormValues(): void {
+    this.form.patchValue(this.ngxMatFormService.restore(this.ngxMatFormSchema));
   }
 
   // Formatting form
   getGridTemplate(): string {
-    return `repeat(${this.formSchema.columns}, minmax(200px, 1fr))`;
+    return `repeat(${this.ngxMatFormSchema.columns}, minmax(200px, 1fr))`;
   }
 }
