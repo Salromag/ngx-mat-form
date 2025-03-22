@@ -40,11 +40,11 @@ export class AppModule {}
 ```
 ## Component usage example
 ```html
-<ngx-mat-dynamic-form
+<ngx-mat-form
         [formSchema]="dynamicFormSchema"
         (onSumbit)="handleSumbit($event)"
         (onReset)="handleReset($event)">
-</ngx-mat-dynamic-form>
+</ngx-mat-form>
 
 ```
 

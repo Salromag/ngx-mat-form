@@ -1,8 +1,9 @@
 import {NgxMatField} from "./ngx-mat-field.model";
 
-export class NgxMatDynamicForm {
+export class NgxMatForm {
   public id: string;
   public name: string;
+  public storeKey?: string;
   public labelButtons: {
     submit: string,
     clear: string,
@@ -13,6 +14,7 @@ export class NgxMatDynamicForm {
   constructor(
     id: string,
     name: string,
+    storeKey: string,
     labelButtons: {
       submit: string,
       clear: string
@@ -21,6 +23,7 @@ export class NgxMatDynamicForm {
     fields: any[]) {
     this.id = id;
     this.name = name;
+    this.storeKey = storeKey;
     this.labelButtons = labelButtons;
     this.columns = columns;
     this.fields = fields;

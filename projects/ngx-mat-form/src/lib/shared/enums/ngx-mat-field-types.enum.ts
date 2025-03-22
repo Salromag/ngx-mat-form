@@ -3,5 +3,6 @@ export enum NgxFieldTypes {
   Number = 'number',
   Email = 'email',
   Password = 'password',
+  Textarea = 'textarea',
   Select = 'select',
 }

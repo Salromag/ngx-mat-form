@@ -1,10 +1,11 @@
-import {NgxMatDynamicForm} from "../models/ngx-mat-form.model";
+import {NgxMatForm} from "../models/ngx-mat-form.model";
 import {NgxMatFieldAppearance} from "../enums/ngx-mat-field-appeareance.enum";
 import {NgxFieldTypes} from "../enums/ngx-mat-field-types.enum";
 
-export const ExampleMatDynamicForm: NgxMatDynamicForm = {
-  id: 'DynamicFormSchemaId',
-  name: 'DynamicFormSchemaName',
+export const ExampleMatForm: NgxMatForm = {
+  id: 'ngx.mat.form.example1',
+  name: 'ngx-mat-schema-example',
+  storeKey: 'ngx.mat.form.schema.myfeature',
   labelButtons: {
     submit: "Submit",
     clear: "Clear",
@@ -15,7 +16,9 @@ export const ExampleMatDynamicForm: NgxMatDynamicForm = {
       id: 'name-field',
       name: 'name',
       label: 'Name',
+      type: NgxFieldTypes.Text,
       appearance: NgxMatFieldAppearance.Outline,
+      placeholder: 'User name',
       validators: [
         {
           validator: 'required',
@@ -30,14 +33,14 @@ export const ExampleMatDynamicForm: NgxMatDynamicForm = {
           value: 10
         }
       ],
-      type: NgxFieldTypes.Text,
-      placeholder: 'User name',
     },
     {
       id: 'password-field',
       name: 'password',
       label: 'Password',
+      type: NgxFieldTypes.Password,
       appearance: NgxMatFieldAppearance.Outline,
+      placeholder: 'Password',
       validators: [
         {
           validator: 'required',
@@ -52,32 +55,32 @@ export const ExampleMatDynamicForm: NgxMatDynamicForm = {
           value: 10
         }
       ],
-      type: NgxFieldTypes.Password,
-      placeholder: 'Password',
     },
     {
       id: 'address-field',
       name: 'address',
       label: 'Address',
+      type: NgxFieldTypes.Text,
       appearance: NgxMatFieldAppearance.Outline,
+      placeholder: 'Address',
       validators: [
         {
           validator: 'minLength',
-          value: 1
+          value: 3
         },
         {
           validator: 'maxLength',
           value: 50
         }
       ],
-      type: NgxFieldTypes.Text,
-      placeholder: 'Address',
     },
     {
       id: 'email-field',
       name: 'email',
       label: 'Email',
+      type: NgxFieldTypes.Email,
       appearance: NgxMatFieldAppearance.Outline,
+      placeholder: 'Email',
       validators: [
         {
           validator: 'pattern',
@@ -88,14 +91,14 @@ export const ExampleMatDynamicForm: NgxMatDynamicForm = {
           value: true
         }
       ],
-      type: NgxFieldTypes.Email,
-      placeholder: 'Email',
     },
     {
       id: 'age-field',
       name: 'age',
       label: 'Age',
+      type: NgxFieldTypes.Number,
       appearance: NgxMatFieldAppearance.Outline,
+      placeholder: 'Age',
       validators: [
         {
           validator: 'max',
@@ -106,8 +109,24 @@ export const ExampleMatDynamicForm: NgxMatDynamicForm = {
           value: 2
         }
       ],
-      type: NgxFieldTypes.Number,
-      placeholder: 'Age',
+    },
+    {
+      id: 'description-field',
+      name: 'description',
+      label: 'Description',
+      type: NgxFieldTypes.Textarea,
+      appearance: NgxMatFieldAppearance.Outline,
+      placeholder: 'User description',
+      validators: [
+        {
+          validator: 'minLength',
+          value: 1
+        },
+        {
+          validator: 'maxLength',
+          value: 50
+        }
+      ],
     }
   ]
 }

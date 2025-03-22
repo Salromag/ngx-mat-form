@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {NgxMatDynamicForm, NgxMatFormService, NgxMatField} from "../shared";
+import {NgxMatForm, NgxMatFormService, NgxMatField} from "../shared";
 import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
@@ -9,11 +9,11 @@ import {FormBuilder, FormGroup} from "@angular/forms";
   styleUrls: ['./ngx-mat-form.component.scss']
 })
 export class NgxMatFormComponent implements OnInit {
-  @Input() formSchema: NgxMatDynamicForm;
-  @Output() onSumbit: EventEmitter<FormGroup> = new EventEmitter();
+  @Input() formSchema: NgxMatForm;
+  @Output() onSubmit: EventEmitter<FormGroup> = new EventEmitter();
   @Output() onReset: EventEmitter<void> = new EventEmitter();
 
-  ngxDynamicForm: FormGroup;
+  ngxMatForm: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,16 +32,16 @@ export class NgxMatFormComponent implements OnInit {
     this.formSchema.fields.forEach((field: NgxMatField) => {
       formControls[field.name] = ['', this.ngxMatDynamicFormService.addFieldValidators(field)];
     });
-    this.ngxDynamicForm = this.formBuilder.group(formControls);
+    this.ngxMatForm = this.formBuilder.group(formControls);
   }
 
   submit(): void {
-    this.onSumbit.emit(this.ngxDynamicForm);
+    this.onSubmit.emit(this.ngxMatForm);
   }
 
   clear(): void {
-    this.ngxDynamicForm.reset();
-    this.onReset.emit(this.ngxDynamicForm.value);
+    this.ngxMatForm.reset();
+    this.onReset.emit(this.ngxMatForm.value);
   }
 
   // Formatting form
