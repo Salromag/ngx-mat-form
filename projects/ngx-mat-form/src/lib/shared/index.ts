@@ -5,6 +5,6 @@ export * from './enums/ngx-mat-field-appeareance.enum';
 export * from './models/ngx-mat-field.model';
 export * from './models/ngx-mat-form.model';
 // Examples
-export * from './examples/ngs-dynamic-form-schema';
+export * from './examples/ngx-form-schema';
 // Services
 export * from './services/ngx-mat-form.service';

@@ -11,6 +11,18 @@
           [placeholder]="field.placeholder">
         </textarea>
       }
+      @case ('select') {
+        <mat-select
+          [formControlName]="field.name"
+          [id]="field.id"
+          [multiple]="field.isSelectMultiple || false">
+          @for (option of field.availableValues; track option[matSelectValue]) {
+            <mat-option [id]="option[matSelectValue]"  [value]="option[matSelectValue]">
+              {{ option[matSelectDisplay] }}
+            </mat-option>
+          }
+        </mat-select>
+      }
       @default {
         <input
           matInput

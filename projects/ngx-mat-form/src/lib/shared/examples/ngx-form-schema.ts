@@ -127,6 +127,22 @@ export const ExampleMatForm: NgxMatForm = {
           value: 50
         }
       ],
+    },
+    {
+      id: 'gender-field',
+      name: 'gender',
+      label: 'Gender',
+      type: NgxFieldTypes.Select,
+      appearance: NgxMatFieldAppearance.Outline,
+      placeholder: 'Select gender',
+      displayProperty : 'label',
+      valueProperty: 'id',
+      isSelectMultiple: true,
+      availableValues: [
+        { id: 1, label: 'Male' },
+        { id: 2, label: 'Female' },
+        { id: 3, label: 'Other' },
+      ],
     }
   ]
 }

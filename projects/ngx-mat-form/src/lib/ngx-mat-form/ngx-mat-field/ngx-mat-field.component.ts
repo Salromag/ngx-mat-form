@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from "@angular/core";
-import {NgxMatField} from "../../shared";
+import {NgxFieldTypes, NgxMatField} from "../../shared";
 import {FormGroup} from "@angular/forms";
 
 @Component({
@@ -11,6 +11,10 @@ import {FormGroup} from "@angular/forms";
 export class NgxMatFieldComponent implements OnInit {
   @Input() field: NgxMatField;
   @Input() formGroup: FormGroup;
+
+  matSelectValue: string;
+  matSelectDisplay: string;
+
   constructor() {
   }
 
@@ -18,11 +22,15 @@ export class NgxMatFieldComponent implements OnInit {
     if (!this.formGroup.contains(this.field.name)) {
       this.formGroup.addControl(this.field.name, this.formGroup.get(this.field.name));
     }
+
+    if (this.field.type === NgxFieldTypes.Select) {
+      this.matSelectValue = this.field.valueProperty || 'id';
+      this.matSelectDisplay = this.field.displayProperty || 'name';
+    }
   }
 
   getValidatorValue(field: NgxMatField, validatorName: string): any {
     const validatorConfig = field.validators?.find((v: any) => v.validator === validatorName);
     return validatorConfig ? validatorConfig.value : null;
   }
-
 }

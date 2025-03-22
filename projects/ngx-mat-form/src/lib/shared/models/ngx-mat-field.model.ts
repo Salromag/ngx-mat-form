@@ -9,8 +9,10 @@ export class NgxMatField {
   public validators?: { validator: string, value: any }[];
   public appearance: NgxMatFieldAppearance;
   public placeholder: string;
-  public minLength?: number; // Only for text input
-  public maxLength?: number; // Only for text input
+  public availableValues?: any[];
+  public displayProperty?: string;
+  public valueProperty?: string;
+  public isSelectMultiple?: boolean;
 
   constructor(
     id: string,
@@ -20,8 +22,10 @@ export class NgxMatField {
     validators: [{ validator: string, value: any }],
     appearance: NgxMatFieldAppearance,
     placeholder: string,
-    minLength?: number,
-    maxLength?: number) {
+    availableValues: any[],
+    displayProperty?: string,
+    valueProperty?: string,
+    isSelectMultiple?: boolean) {
     this.id = id;
     this.name = name;
     this.label = label;
@@ -29,7 +33,9 @@ export class NgxMatField {
     this.validators = validators;
     this.appearance = appearance;
     this.placeholder = placeholder;
-    this.minLength = minLength;
-    this.maxLength = maxLength;
+    this.availableValues = availableValues;
+    this.displayProperty = displayProperty;
+    this.valueProperty = valueProperty;
+    this.isSelectMultiple = isSelectMultiple;
   }
 }
