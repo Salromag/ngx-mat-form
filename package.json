@@ -1,6 +1,6 @@
 {
   "name": "ngx-mat-form",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Angular material dynamic forms",
   "repository": {
     "url": "https://github.com/Salromag/ngx-mat-dynamic-form"
@@ -20,7 +20,7 @@
     "dynamicforms",
     "schema",
     "json",
-    "ngx-mat-dynamic-form"
+    "ngx-mat-form"
   ],
   "license": "ISC",
   "scripts": {

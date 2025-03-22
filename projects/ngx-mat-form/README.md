@@ -11,27 +11,34 @@ This Angular library allows you to dynamically create forms based on a schema. I
 - **Appearance Customization**: The appearance of form fields can be easily customized using Angular Material styles (e.g., `Outline`, `Filled`).
 - **Responsive Layout**: The library allows for flexible layout management using grid columns, making it responsive to different screen sizes.
 - **Customizable Labels and Buttons**: Customize button labels (e.g., submit, clear) and field labels based on the schema configuration.
+- **Storage of form values**: Store and restore form values with only one parameter
 
+## Compatibility Table
+
+| NgxMatForm Version | Angular Version | Angular Material Version |
+|--------------------|-----------------|--------------------------|
+| `1.0.0`            | `19.x`          | `19.x`                   |
+| `1.1.0`            | `19.x`          | `19.x`                   |
 
 ### Installation
 
-First, install the `ngx-mat-dynamic-form` library from npm.
+First, install the `ngx-mat-form` library from npm.
 
 ```bash
-npm install ngx-mat-dynamic-form
+npm install ngx-mat-form
 ```
 
 
 In your `app.module.ts`, import the `NgxMatFormModule` from the library and ensure that the necessary Angular Material modules are also imported (if not already done).
 
 ```typescript
-import { NgxMatFormModule } from 'ngx-mat-dynamic-form';
+import { NgxMatFormModule } from 'ngx-mat-form';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     ...
-      NgxMatFormModule  // Import the dynamic form module
+      NgxMatFormModule  // Import the form module
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -41,8 +48,8 @@ export class AppModule {}
 ## Component usage example
 ```html
 <ngx-mat-form
-        [schema]="dynamicFormSchema"
-        (onSumbit)="handleSumbit($event)"
+        [ngxMatFormSchema]="dynamicFormSchema"
+        (onSubmit)="handleSumbit($event)"
         (onReset)="handleReset($event)">
 </ngx-mat-form>
 
@@ -56,8 +63,10 @@ Here is an example of how the schema looks:
 
 ```typescript
 export const DynamicFormSchema: NgxMatDynamicForm = {
-  id: 'DynamicFormSchemaId',
-  name: 'DynamicFormSchemaName',
+  id: 'ngx.mat.form.example1',
+  name: 'ngx-mat-schema-example',
+  restoreForm: true,
+  storeKey: 'ngx.mat.form.schema.myfeature',
   labelButtons: {
     submit: "Submit",
     clear: "Clear",
@@ -68,10 +77,9 @@ export const DynamicFormSchema: NgxMatDynamicForm = {
   ]
 };
 ```
-## `NgxMatDynamicForm` Properties
+## `NgxMatForm` Properties
 
-The `NgxMatDynamicForm` schema defines the structure and configuration for a dynamic form. Below are the main properties you can use:
-
+The `NgxMatForm` schema defines the structure and configuration for a dynamic form. Below are the main properties you can use:
 
 - **`id`** (string)
   - Unique identifier for the form.
@@ -80,6 +88,14 @@ The `NgxMatDynamicForm` schema defines the structure and configuration for a dyn
 - **`name`** (string)
   - Name of the form, typically used for reference or accessibility purposes.
   - Example: `'DynamicFormSchemaName'`.
+
+- **`restore`** (boolean)
+  - Set true if the form should be restored on initialization.
+  - Example: `true`.
+
+- **`storeKey`** (string)
+  - The key of the form storage in the session store
+  - Example: `ngx.mat.form.schema.myfeature`.
 
 - **`labelButtons`** (object)
   - Defines the labels for form buttons such as submit and clear.
@@ -195,6 +211,29 @@ export const DynamicFormSchema: NgxMatDynamicForm = {
   ]
 };
 ```
+## NgxMatFormService
+Service that provides useful tools to interact or modify the NgxMatFormSchema
+
+### `NgxMatFormService` Features
+
+- **`setAvailableValues`**
+  - Giving field name, and a customised array of entities, populate the availableValues of one field
+  - ```typescript
+    // Name of the field
+    // Elements to apply
+    // NgxMatFormSchema
+    this.ngxMatFormService.setAvailableValues('gender', this.exampleOptions, this.schema);
+    ```
+- **`setProperty`**
+  - Override a property of one field.
+  - ```typescript
+    // Name of the field
+    // Property to override
+    // Value to applied to the propery
+    // NgxMatFormSchema
+    this.ngxMatFormService.setProperty('gender', 'valueProperty', 'versionId', this.schema);
+    this.ngxMatFormService.setProperty('gender', 'displayProperty', 'code', this.schema);
+    ```
 
 ## Benefits
 
@@ -207,4 +246,3 @@ export const DynamicFormSchema: NgxMatDynamicForm = {
 
 ---
 This section describes the functionality and purpose of the library in English. You can add this to your `README.md` to give users an overview of how the library works and how it can be beneficial.
-
