@@ -188,6 +188,19 @@ export const ExampleMatForm: NgxMatFormSchema = {
       ],
       displayProperty: 'label',
       valueProperty: 'id'
+    },
+    {
+      id: 'birthday-field',
+      name: 'birthday',
+      label: 'Birthday',
+      type: NgxFieldTypes.Date,
+      appearance: NgxMatFieldAppearance.Outline,
+      placeholder: 'User birthday',
+      hint: {
+        left: 'Add the user birthday'
+      },
+      minDate: new Date(2000, 0, 1),
+      maxDate: new Date(2030, 11, 31)
     }
   ]
 }

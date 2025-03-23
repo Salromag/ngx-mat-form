@@ -1,7 +1,37 @@
 <ng-container [formGroup]="formGroup">
+  <!-- Dates -->
+  @if (field.type === 'date' || field.type == 'daterange') {
+    @switch (field.type) {
+      @case ('date') {
+        <mat-form-field [appearance]="field.appearance">
+          <mat-label>{{ field.label }}</mat-label>
+          <input
+            matInput
+            [id]="field.id"
+            [min]="field.minDate"
+            [max]="field.maxDate"
+            [name]="field.name"
+            [formControlName]="field.name"
+            [matDatepicker]="picker"
+          >
+          <!-- Hints -->
+          @if (field.hint?.left) {
+            <mat-hint align="start">{{ field.hint?.left }}</mat-hint>
+          }
+          @if (field.hint?.right) {
+            <mat-hint align="end">{{ field.hint?.right }}</mat-hint>
+          }
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      }
+    }
+  }
+  <!-- Checkbox and radios -->
   @if (field.type === 'checkbox' || field.type === 'radio') {
     <section class="ngx-mat-form-section">
       @switch (field.type) {
+
         @case ('checkbox') {
           <mat-checkbox
             color="primary"
@@ -27,7 +57,7 @@
       }
     </section>
     <!-- Mat form fields -->
-  } @else {
+  } @else if (field.type !== 'date' && field.type !== 'daterange') {
     <mat-form-field [appearance]="field.appearance">
       <mat-label>{{ field.label }}</mat-label>
       @switch (field.type) {

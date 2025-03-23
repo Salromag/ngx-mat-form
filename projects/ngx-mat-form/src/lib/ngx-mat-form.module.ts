@@ -11,8 +11,10 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatRadioModule} from "@angular/material/radio";
 import {NgxMatFormConfig} from "./shared/models/ngx-mat-form-config.model";
-import { CONFIG } from './shared/injection-token/config-token';
+import {CONFIG} from './shared/injection-token/config-token';
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatIconModule} from "@angular/material/icon";
+import {provideNativeDateAdapter} from "@angular/material/core";
 
 @NgModule({
   imports: [
@@ -24,17 +26,23 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
     MatSelectModule,
     MatCheckboxModule,
     MatRadioModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatIconModule,
   ],
   declarations: [NgxMatFormComponent, NgxMatFieldComponent],
-  providers: [NgxMatFormService],
+  providers: [
+    NgxMatFormService,
+    provideNativeDateAdapter()
+  ],
   exports: [NgxMatFormComponent, NgxMatFieldComponent]
 })
 export class NgxMatFormModule {
-  static forRoot(config = new NgxMatFormConfig()): ModuleWithProviders<NgxMatFormModule>  {
+  static forRoot(config = new NgxMatFormConfig()): ModuleWithProviders<NgxMatFormModule> {
     return {
       ngModule: NgxMatFormModule,
-      providers: [ NgxMatFormService,
+      providers: [
+        NgxMatFormService,
+        provideNativeDateAdapter(),
         { provide: CONFIG, useValue: config }
       ]
     };

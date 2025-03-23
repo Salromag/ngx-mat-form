@@ -153,11 +153,20 @@ Each object in the `fields` array has the following properties:
   - Define the value of the options of the availableValues list
   - Example: `'id'`.
 
+- **`minDate`** (Date)
+  - Define the minimum date of the datepicker field
+  - Example: `new Date(2000, 0, 1)`.
+
+- **`maxDate`** (Date)
+  - Define the maximum date of the datepicker field
+  - Example: `new Date(2030, 11, 31)`.
+
 - **`validators`** (array of objects)
   - Array of validation rules for the field.
   - Each object contains:
     - **`validator`** (string): The type of validator (e.g., `'required'`, `'minLength'`).
     - **`value`** (any): The value associated with the validator (e.g., `true`, `10`, regex pattern).
+
   - Example:
     ```typescript
     validators: [
@@ -216,6 +225,19 @@ export const DynamicFormSchema: NgxMatDynamicForm = {
         { id: 2, label: 'Female' },
         { id: 3, label: 'Other' },
       ],
+    },
+    {
+      id: 'birthday-field',
+      name: 'birthday',
+      label: 'Birthday',
+      type: NgxFieldTypes.Date,
+      appearance: NgxMatFieldAppearance.Outline,
+      placeholder: 'User birthday',
+      hint: {
+        left: 'Add the user birthday'
+      },
+      minDate: new Date(2000, 0, 1),
+      maxDate: new Date(2030, 11, 31)
     }
   ]
 };

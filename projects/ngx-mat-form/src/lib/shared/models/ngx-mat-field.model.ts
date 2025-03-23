@@ -10,13 +10,15 @@ export class NgxMatField {
   public appearance: NgxMatFieldAppearance;
   public placeholder?: string;
   public hint?: {
-    left: string;
-    right: string;
+    left?: string;
+    right?: string;
   }
   public availableValues?: any[];
   public displayProperty?: string;
   public valueProperty?: string;
   public isSelectMultiple?: boolean;
+  public minDate?: Date;
+  public maxDate?: Date;
 
   constructor(
     id: string,
@@ -33,7 +35,9 @@ export class NgxMatField {
     availableValues: any[],
     displayProperty?: string,
     valueProperty?: string,
-    isSelectMultiple?: boolean) {
+    isSelectMultiple?: boolean,
+    minDate?: Date,
+    maxDate?: Date,) {
     this.id = id;
     this.name = name;
     this.label = label;
@@ -46,5 +50,7 @@ export class NgxMatField {
     this.displayProperty = displayProperty;
     this.valueProperty = valueProperty;
     this.isSelectMultiple = isSelectMultiple;
+    this.minDate = minDate;
+    this.maxDate = maxDate;
   }
 }

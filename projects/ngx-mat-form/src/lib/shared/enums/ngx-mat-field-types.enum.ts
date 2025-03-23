@@ -1,3 +1,6 @@
+/**
+ * Available types of Field
+ */
 export enum NgxFieldTypes {
   Text = 'text',
   Number = 'number',
@@ -6,5 +9,7 @@ export enum NgxFieldTypes {
   Textarea = 'textarea',
   Select = 'select',
   Checkbox = 'checkbox',
-  Radio = 'radio'
+  Radio = 'radio',
+  Date = 'date',
+  DateRange = 'daterange',
 }
