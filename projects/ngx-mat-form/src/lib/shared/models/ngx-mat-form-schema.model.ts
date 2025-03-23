@@ -12,7 +12,6 @@ export class NgxMatFormSchema {
     buttonPosition: NgxMatFormButtonPositions
   };
   public columns: number;
-
   public fields: NgxMatField[];
 
   constructor(

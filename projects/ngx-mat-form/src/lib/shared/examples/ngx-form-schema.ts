@@ -22,6 +22,10 @@ export const ExampleMatForm: NgxMatFormSchema = {
       type: NgxFieldTypes.Text,
       appearance: NgxMatFieldAppearance.Outline,
       placeholder: 'User name',
+      hint: {
+        left: 'Write your full name',
+        right: 'No caps'
+      },
       validators: [
         {
           validator: 'required',

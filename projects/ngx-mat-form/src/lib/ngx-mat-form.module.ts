@@ -12,6 +12,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatRadioModule} from "@angular/material/radio";
 import {NgxMatFormConfig} from "./shared/models/ngx-mat-form-config.model";
 import { CONFIG } from './shared/injection-token/config-token';
+import {MatDatepickerModule} from "@angular/material/datepicker";
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { CONFIG } from './shared/injection-token/config-token';
     MatButtonModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatRadioModule
+    MatRadioModule,
+    MatDatepickerModule
   ],
   declarations: [NgxMatFormComponent, NgxMatFieldComponent],
   providers: [NgxMatFormService],

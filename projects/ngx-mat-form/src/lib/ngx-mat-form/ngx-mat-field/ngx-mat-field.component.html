@@ -62,6 +62,13 @@
             [placeholder]="field.placeholder || field.name">
         }
       }
+      <!-- Hints -->
+      @if (field.hint?.left) {
+        <mat-hint align="start">{{ field.hint?.left }}</mat-hint>
+      }
+      @if (field.hint?.right) {
+        <mat-hint align="end">{{ field.hint?.right }}</mat-hint>
+      }
       <!-- Required -->
       <mat-error *ngIf="formGroup.get(field.name)?.hasError('required')">
         {{ field.label }} is required.

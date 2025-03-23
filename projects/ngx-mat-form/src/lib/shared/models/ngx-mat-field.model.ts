@@ -9,6 +9,10 @@ export class NgxMatField {
   public validators?: { validator: string, value: any }[];
   public appearance: NgxMatFieldAppearance;
   public placeholder?: string;
+  public hint?: {
+    left: string;
+    right: string;
+  }
   public availableValues?: any[];
   public displayProperty?: string;
   public valueProperty?: string;
@@ -22,6 +26,10 @@ export class NgxMatField {
     validators: [{ validator: string, value: any }],
     appearance: NgxMatFieldAppearance,
     placeholder: string,
+    hint: {
+      left: string,
+      right: string
+    },
     availableValues: any[],
     displayProperty?: string,
     valueProperty?: string,
@@ -33,6 +41,7 @@ export class NgxMatField {
     this.validators = validators;
     this.appearance = appearance;
     this.placeholder = placeholder;
+    this.hint = hint;
     this.availableValues = availableValues;
     this.displayProperty = displayProperty;
     this.valueProperty = valueProperty;
