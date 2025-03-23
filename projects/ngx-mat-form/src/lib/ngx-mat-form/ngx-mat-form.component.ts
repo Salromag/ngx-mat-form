@@ -12,6 +12,7 @@ export class NgxMatFormComponent implements OnInit {
   @Input() ngxMatFormSchema: NgxMatFormSchema;
   @Output() onSubmit: EventEmitter<FormGroup> = new EventEmitter();
   @Output() onReset: EventEmitter<void> = new EventEmitter();
+  @Output() onFormChanges: EventEmitter<FormGroup> = new EventEmitter();
 
   form: FormGroup;
 
@@ -22,6 +23,7 @@ export class NgxMatFormComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
+    this.onFormChange();
     if (this.ngxMatFormSchema.restoreForm) {
       this.restoreFormValues();
     }
@@ -48,6 +50,12 @@ export class NgxMatFormComponent implements OnInit {
   clear(): void {
     this.form.reset();
     this.onReset.emit(this.form.value);
+  }
+
+  onFormChange(): void {
+    this.form.valueChanges.subscribe((value: any) => {
+      this.onFormChanges.emit(value);
+    })
   }
 
   store(): void {

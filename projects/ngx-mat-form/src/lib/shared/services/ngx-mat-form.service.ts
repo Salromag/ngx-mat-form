@@ -100,4 +100,8 @@ export class NgxMatFormService {
       return null;
     }
   }
+
+  clearStorageValues(ngxMatForm: NgxMatFormSchema): void {
+    sessionStorage.removeItem(ngxMatForm.storeKey || ngxMatForm.id);
+  }
 }

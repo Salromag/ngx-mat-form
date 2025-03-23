@@ -44,38 +44,28 @@ import { NgxMatFormModule } from 'ngx-mat-form';
 })
 export class AppModule {}
 ```
-## Component usage example
+## `NgxMatForm` docs
+- **`ngxMatFormSchema`** Input (NgxMatFormSchema)
+  - Schema to be displayed.
+
+- **`onFormChanges`** Output(FormGroup)
+  - Emit FormGroup when form value change
+
+- **`onSubmit`** Output(FormGroup)
+  - Emit FormGroup when form is submitted
+
+- **`onReset`** Output(void)
+  - Emit FormGroup when form is cleared
+
 ```html
 <ngx-mat-form
-        [ngxMatFormSchema]="dynamicFormSchema"
-        (onSubmit)="handleSumbit($event)"
-        (onReset)="handleReset($event)">
+  [ngxMatFormSchema]="ngxMatFormSchema"
+  (onFormChanges)="handleFormChanges($event)"
+  (onSubmit)="handleSubmit($event)"
+  (onReset)="handleReset($event)">
 </ngx-mat-form>
-
 ```
 
-## How It Works
-
-The schema is a JSON-like object that contains information about the form fields (such as field name, label, validators, input type, etc.), the layout (columns), and button labels. This schema is passed to a component which renders the form with appropriate validations and input types.
-
-Here is an example of how the schema looks:
-
-```typescript
-export const DynamicFormSchema: NgxMatDynamicForm = {
-  id: 'ngx.mat.form.example1',
-  name: 'ngx-mat-schema-example',
-  restoreForm: true,
-  storeKey: 'ngx.mat.form.schema.myfeature',
-  labelButtons: {
-    submit: "Submit",
-    clear: "Clear",
-  },
-  columns: 4,
-  fields: [
-    // Field definitions go here...
-  ]
-};
-```
 ## `NgxMatForm` Properties
 
 The `NgxMatForm` schema defines the structure and configuration for a dynamic form. Below are the main properties you can use:
@@ -103,10 +93,13 @@ The `NgxMatForm` schema defines the structure and configuration for a dynamic fo
     - **`clear`** (string): Label for the clear button.
   - Example:
     ```typescript
+    ...
     labelButtons: {
       submit: 'Submit',
       clear: 'Clear',
-    }
+      buttonPosition: NgxMatFormButtonPositions.Left
+    },
+    ...
     ```
 
 - **`columns`** (number)
@@ -209,24 +202,6 @@ export const DynamicFormSchema: NgxMatDynamicForm = {
       ]
     },
     {
-      id: 'email-field',
-      name: 'email',
-      label: 'Email',
-      appearance: NgxMatFieldAppearance.Outline,
-      type: NgxFieldTypes.Email,
-      placeholder: 'Enter your email',
-      validators: [
-        {
-          validator: 'pattern',
-          value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
-        },
-        {
-          validator: 'required',
-          value: true
-        }
-      ]
-    },
-    {
       id: 'gender-field',
       name: 'gender',
       label: 'Gender',
@@ -267,6 +242,11 @@ Service that provides useful tools to interact or modify the NgxMatFormSchema
     // NgxMatFormSchema
     this.ngxMatFormService.setProperty('gender', 'valueProperty', 'versionId', this.schema);
     this.ngxMatFormService.setProperty('gender', 'displayProperty', 'code', this.schema);
+    ```
+- **`clearStorageValues`**
+  - Remove storage values from session storage of one form
+  - ```typescript
+    this.ngxMatFormService.clearStorageValues(this.schema);
     ```
 
 ## Benefits

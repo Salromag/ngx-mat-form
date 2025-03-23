@@ -1,4 +1,4 @@
-import {NgModule} from "@angular/core";
+import {ModuleWithProviders, NgModule} from "@angular/core";
 import {NgxMatFormComponent} from "./ngx-mat-form/ngx-mat-form.component";
 import {NgxMatFormService} from "./shared/services/ngx-mat-form.service";
 import {CommonModule} from "@angular/common";
@@ -10,6 +10,8 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatSelectModule} from "@angular/material/select";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatRadioModule} from "@angular/material/radio";
+import {NgxMatFormConfig} from "./shared/models/ngx-mat-form-config.model";
+import { CONFIG } from './shared/injection-token/config-token';
 
 @NgModule({
   imports: [
@@ -27,5 +29,12 @@ import {MatRadioModule} from "@angular/material/radio";
   exports: [NgxMatFormComponent, NgxMatFieldComponent]
 })
 export class NgxMatFormModule {
-
+  static forRoot(config = new NgxMatFormConfig()): ModuleWithProviders<NgxMatFormModule>  {
+    return {
+      ngModule: NgxMatFormModule,
+      providers: [ NgxMatFormService,
+        { provide: CONFIG, useValue: config }
+      ]
+    };
+  }
 }
