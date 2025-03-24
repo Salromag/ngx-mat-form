@@ -17,6 +17,7 @@ This Angular library allows you to dynamically create forms based on a schema. I
 | NgxMatForm Version | Angular Version | Angular Material Version |
 |--------------------|-----------------|--------------------------|
 | `1.3.0`            | `19.x`          | `19.x`                   |
+| `1.3.0`            | `19.x`          | `19.x`                   |
 | `1.2.0`            | `19.x`          | `19.x`                   |
 | `1.1.0`            | `19.x`          | `19.x`                   |
 | `1.0.0`            | `19.x`          | `19.x`                   |
@@ -162,6 +163,11 @@ Each object in the `fields` array has the following properties:
   - Define the maximum date of the datepicker field
   - Example: `new Date(2030, 11, 31)`.
 
+- **`retrieveOptionsUrl`**  (string)
+  - Url to get the results for an autocomplete
+  - Example: `https://rickandmortyapi.com/api/character`
+
+
 - **`validators`** (array of objects)
   - Array of validation rules for the field.
   - Each object contains:
@@ -239,6 +245,20 @@ export const DynamicFormSchema: NgxMatDynamicForm = {
       },
       minDate: new Date(2000, 0, 1),
       maxDate: new Date(2030, 11, 31)
+    },
+    {
+      id: 'friends-field',
+      name: 'friends',
+      label: 'Friends',
+      type: NgxFieldTypes.Autocomplete,
+      appearance: NgxMatFieldAppearance.Fill,
+      placeholder: 'User friends birthday',
+      hint: {
+        left: 'Add the user friends'
+      },
+      displayProperty: 'name',
+      valueProperty: 'id',
+      retrieveOptionsUrl: 'https://rickandmortyapi.com/api/character'
     }
   ]
 };
