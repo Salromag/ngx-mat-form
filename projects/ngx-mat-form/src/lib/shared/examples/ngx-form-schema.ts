@@ -20,7 +20,7 @@ export const ExampleMatForm: NgxMatFormSchema = {
       name: 'name',
       label: 'Name',
       type: NgxFieldTypes.Text,
-      appearance: NgxMatFieldAppearance.Outline,
+      appearance: NgxMatFieldAppearance.Fill,
       placeholder: 'User name',
       hint: {
         left: 'Write your full name',
@@ -46,7 +46,7 @@ export const ExampleMatForm: NgxMatFormSchema = {
       name: 'password',
       label: 'Password',
       type: NgxFieldTypes.Password,
-      appearance: NgxMatFieldAppearance.Outline,
+      appearance: NgxMatFieldAppearance.Fill,
       placeholder: 'Password',
       validators: [
         {
@@ -68,7 +68,7 @@ export const ExampleMatForm: NgxMatFormSchema = {
       name: 'address',
       label: 'Address',
       type: NgxFieldTypes.Text,
-      appearance: NgxMatFieldAppearance.Outline,
+      appearance: NgxMatFieldAppearance.Fill,
       placeholder: 'Address',
       validators: [
         {
@@ -86,7 +86,7 @@ export const ExampleMatForm: NgxMatFormSchema = {
       name: 'email',
       label: 'Email',
       type: NgxFieldTypes.Email,
-      appearance: NgxMatFieldAppearance.Outline,
+      appearance: NgxMatFieldAppearance.Fill,
       placeholder: 'Email',
       validators: [
         {
@@ -104,7 +104,7 @@ export const ExampleMatForm: NgxMatFormSchema = {
       name: 'age',
       label: 'Age',
       type: NgxFieldTypes.Number,
-      appearance: NgxMatFieldAppearance.Outline,
+      appearance: NgxMatFieldAppearance.Fill,
       placeholder: 'Age',
       validators: [
         {
@@ -122,7 +122,7 @@ export const ExampleMatForm: NgxMatFormSchema = {
       name: 'description',
       label: 'Description',
       type: NgxFieldTypes.Textarea,
-      appearance: NgxMatFieldAppearance.Outline,
+      appearance: NgxMatFieldAppearance.Fill,
       placeholder: 'User description',
       validators: [
         {
@@ -140,15 +140,15 @@ export const ExampleMatForm: NgxMatFormSchema = {
       name: 'gender',
       label: 'Gender',
       type: NgxFieldTypes.Select,
-      appearance: NgxMatFieldAppearance.Outline,
+      appearance: NgxMatFieldAppearance.Fill,
       placeholder: 'Select gender',
-      displayProperty : 'label',
+      displayProperty: 'label',
       valueProperty: 'id',
       isSelectMultiple: true,
       availableValues: [
-        { id: 1, label: 'Male' },
-        { id: 2, label: 'Female' },
-        { id: 3, label: 'Other' },
+        {id: 1, label: 'Male'},
+        {id: 2, label: 'Female'},
+        {id: 3, label: 'Other'},
       ],
     },
     {
@@ -156,7 +156,7 @@ export const ExampleMatForm: NgxMatFormSchema = {
       name: 'active',
       label: 'Active',
       type: NgxFieldTypes.Checkbox,
-      appearance: NgxMatFieldAppearance.Outline,
+      appearance: NgxMatFieldAppearance.Fill,
       validators: [
         {
           validator: 'required',
@@ -169,7 +169,7 @@ export const ExampleMatForm: NgxMatFormSchema = {
       name: 'plan',
       label: 'Plan',
       type: NgxFieldTypes.Radio,
-      appearance: NgxMatFieldAppearance.Outline,
+      appearance: NgxMatFieldAppearance.Fill,
       validators: [
         {
           validator: 'required',
@@ -193,14 +193,33 @@ export const ExampleMatForm: NgxMatFormSchema = {
       id: 'birthday-field',
       name: 'birthday',
       label: 'Birthday',
-      type: NgxFieldTypes.Date,
-      appearance: NgxMatFieldAppearance.Outline,
+      type: NgxFieldTypes.DateRange,
+      appearance: NgxMatFieldAppearance.Fill,
       placeholder: 'User birthday',
       hint: {
         left: 'Add the user birthday'
       },
       minDate: new Date(2000, 0, 1),
       maxDate: new Date(2030, 11, 31)
+    },
+    {
+      id: 'friends-field',
+      name: 'friends',
+      label: 'Friends',
+      type: NgxFieldTypes.Autocomplete,
+      appearance: NgxMatFieldAppearance.Fill,
+      placeholder: 'User friends birthday',
+      hint: {
+        left: 'Add the user friends'
+      },
+      availableValues: [
+        {id: 1, label: 'Marc Marquez', age: 31},
+        {id: 2, label: 'Alex Marquez', age: 28},
+        {id: 3, label: 'Pecco Bagnania', age: 28},
+        {id: 4, label: 'Casey Stonner', age: 32},
+      ],
+      displayProperty: 'label',
+      valueProperty: 'id',
     }
   ]
 }

@@ -12,4 +12,5 @@ export enum NgxFieldTypes {
   Radio = 'radio',
   Date = 'date',
   DateRange = 'daterange',
+  Autocomplete = 'autocomplete',
 }

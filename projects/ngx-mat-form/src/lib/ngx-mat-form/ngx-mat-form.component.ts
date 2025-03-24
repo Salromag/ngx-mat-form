@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {NgxMatFormSchema, NgxMatFormService, NgxMatField} from "../shared";
+import {NgxFieldTypes, NgxMatField, NgxMatFormSchema, NgxMatFormService} from "../shared";
 import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
@@ -36,6 +36,10 @@ export class NgxMatFormComponent implements OnInit {
     const formControls: any = {};
     this.ngxMatFormSchema.fields.forEach((field: NgxMatField) => {
       formControls[field.name] = [null, this.ngxMatFormService.addFieldValidators(field)];
+      if (field.type === NgxFieldTypes.DateRange) {
+        formControls[field.name + '-start'] = [null, this.ngxMatFormService.addFieldValidators(field)]
+        formControls[field.name + '-end'] = [null, this.ngxMatFormService.addFieldValidators(field)]
+      }
     });
     this.form = this.formBuilder.group(formControls);
   }

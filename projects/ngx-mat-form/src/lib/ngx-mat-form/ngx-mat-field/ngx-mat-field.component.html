@@ -1,4 +1,26 @@
 <ng-container [formGroup]="formGroup">
+  <!-- Autocomplete -->
+  @if (field.type === 'autocomplete' && field.availableValues) {
+    <mat-form-field class="example-full-width">
+      <mat-label>{{ field.label }}</mat-label>
+      <input type="text"
+             [placeholder]="field.placeholder || field.name"
+             [id]="field.id"
+             [name]="field.name"
+             matInput
+             [formControlName]="field.name"
+             [matAutocomplete]="auto">
+      <mat-autocomplete
+        autoActiveFirstOption
+        #auto="matAutocomplete"
+        [displayWith]="displayFn.bind(this)">
+        @for (option of field.filteredOptions | async; track option) {
+          <mat-option [value]="option" id="{{ option[valueProperty] + '-ac-option' }}">{{ option[displayProperty] }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+  }
+
   <!-- Dates -->
   @if (field.type === 'date' || field.type == 'daterange') {
     @switch (field.type) {
@@ -25,6 +47,32 @@
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       }
+      @case ('daterange') {
+        <mat-form-field>
+          <mat-label>{{ field.label }}</mat-label>
+          <mat-date-range-input [formGroup]="formGroup" [rangePicker]="picker">
+            <input
+              matStartDate
+              [id]="field.id + '-start'"
+              [formControlName]="field.name + '-start'"
+              placeholder="Start date">
+            <input
+              matEndDate
+              [id]="field.id + '-end'"
+              [formControlName]="field.name + '-end'"
+              placeholder="End date">
+          </mat-date-range-input>
+          <!-- Hints -->
+          @if (field.hint?.left) {
+            <mat-hint align="start">{{ field.hint?.left }}</mat-hint>
+          }
+          @if (field.hint?.right) {
+            <mat-hint align="end">{{ field.hint?.right }}</mat-hint>
+          }
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      }
     }
   }
   <!-- Checkbox and radios -->
@@ -47,9 +95,9 @@
             [id]="field.id"
             [name]="field.name"
             [formControlName]="field.name">
-            @for (option of field.availableValues; track option[radioValueProperty]) {
-              <mat-radio-button [value]="option[radioValueProperty]">
-                {{ option[radioDisplayProperty] }}
+            @for (option of field.availableValues; track option[valueProperty]) {
+              <mat-radio-button [value]="option[valueProperty]">
+                {{ option[displayProperty] }}
               </mat-radio-button>
             }
           </mat-radio-group>
@@ -57,7 +105,7 @@
       }
     </section>
     <!-- Mat form fields -->
-  } @else if (field.type !== 'date' && field.type !== 'daterange') {
+  } @else if (field.type !== 'date' && field.type !== 'daterange' && field.type !== 'autocomplete') {
     <mat-form-field [appearance]="field.appearance">
       <mat-label>{{ field.label }}</mat-label>
       @switch (field.type) {
@@ -75,9 +123,9 @@
             [formControlName]="field.name"
             [id]="field.id"
             [multiple]="field.isSelectMultiple || false">
-            @for (option of field.availableValues; track option[matSelectValue]) {
-              <mat-option [id]="option[matSelectValue]" [value]="option[matSelectValue]">
-                {{ option[matSelectDisplay] }}
+            @for (option of field.availableValues; track option[valueProperty]) {
+              <mat-option [id]="option[valueProperty]" [value]="option[valueProperty]">
+                {{ option[displayProperty] }}
               </mat-option>
             }
           </mat-select>

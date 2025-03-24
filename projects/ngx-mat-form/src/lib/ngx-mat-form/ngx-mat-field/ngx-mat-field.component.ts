@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from "@angular/core";
 import {NgxFieldTypes, NgxMatField} from "../../shared";
-import {FormGroup} from "@angular/forms";
+import {FormControl, FormGroup} from "@angular/forms";
+import {map, Observable, startWith} from "rxjs";
 
 @Component({
   selector: "ngx-mat-field",
@@ -12,17 +13,23 @@ export class NgxMatFieldComponent implements OnInit {
   @Input() field: NgxMatField;
   @Input() formGroup: FormGroup;
 
-  matSelectValue: string;
-  matSelectDisplay: string;
-  radioValueProperty: string;
-  radioDisplayProperty: string;
+  valueProperty: any;
+  displayProperty: any;
 
   constructor() {
   }
 
   ngOnInit(): void {
-    if (!this.formGroup.contains(this.field.name)) {
-      this.formGroup.addControl(this.field.name, this.formGroup.get(this.field.name));
+    let control = this.formGroup.get(this.field.name);
+    if (!control) {
+      control = new FormControl(null);
+      this.formGroup.addControl(this.field.name, control);
+    }
+    if (this.field.type === NgxFieldTypes.Autocomplete && this.field.availableValues) {
+      this.field.filteredOptions = control.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter(value || '', this.field.availableValues || [])),
+      );
     }
     this.fillProperties();
   }
@@ -33,14 +40,24 @@ export class NgxMatFieldComponent implements OnInit {
   }
 
   private fillProperties(): void {
-    if (this.field.type === NgxFieldTypes.Select) {
-      this.matSelectValue = this.field.valueProperty || 'id';
-      this.matSelectDisplay = this.field.displayProperty || 'label';
+    if (this.field.type === NgxFieldTypes.Select || this.field.type === NgxFieldTypes.Radio
+      || this.field.type === NgxFieldTypes.Autocomplete) {
+      this.valueProperty = this.field.valueProperty || 'id';
+      this.displayProperty = this.field.displayProperty || 'label';
     }
+  }
 
-    if (this.field.type === NgxFieldTypes.Radio) {
-      this.radioValueProperty = this.field.valueProperty || 'id';
-      this.radioDisplayProperty = this.field.displayProperty || 'label';
+  private _filter(value: any, options: any[]): any[] {
+    let filterValue: string = '';
+    if (typeof value === 'string') {
+      filterValue = value.toLowerCase();
+    } else if (typeof value === 'object' && value !== null) {
+      filterValue = value[this.displayProperty]?.toLowerCase() || '';
     }
+    return options.filter(option => option[this.displayProperty]?.toLowerCase().includes(filterValue));
+  }
+
+  displayFn(option: any): string {
+    return option && this.field?.displayProperty ? option[this.field.displayProperty] : '';
   }
 }

@@ -15,6 +15,7 @@ import {CONFIG} from './shared/injection-token/config-token';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatIconModule} from "@angular/material/icon";
 import {provideNativeDateAdapter} from "@angular/material/core";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import {provideNativeDateAdapter} from "@angular/material/core";
     MatRadioModule,
     MatDatepickerModule,
     MatIconModule,
+    MatAutocompleteModule
   ],
   declarations: [NgxMatFormComponent, NgxMatFieldComponent],
   providers: [

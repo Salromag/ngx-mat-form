@@ -1,5 +1,6 @@
 import {NgxFieldTypes} from "../enums/ngx-mat-field-types.enum";
 import {NgxMatFieldAppearance} from "../enums/ngx-mat-field-appeareance.enum";
+import {Observable} from "rxjs";
 
 export class NgxMatField {
   public id: string;
@@ -19,6 +20,7 @@ export class NgxMatField {
   public isSelectMultiple?: boolean;
   public minDate?: Date;
   public maxDate?: Date;
+  public filteredOptions?: Observable<string[]>;
 
   constructor(
     id: string,
