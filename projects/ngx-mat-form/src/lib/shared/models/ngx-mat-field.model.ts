@@ -21,6 +21,7 @@ export class NgxMatField {
   public minDate?: Date;
   public maxDate?: Date;
   public filteredOptions?: Observable<string[]>;
+  public retrieveOptionsUrl?: string
 
   constructor(
     id: string,
@@ -39,7 +40,9 @@ export class NgxMatField {
     valueProperty?: string,
     isSelectMultiple?: boolean,
     minDate?: Date,
-    maxDate?: Date,) {
+    maxDate?: Date,
+    filteredOptions?: Observable<string[]>,
+    retrieveOptionsUrl?: string) {
     this.id = id;
     this.name = name;
     this.label = label;
@@ -54,5 +57,7 @@ export class NgxMatField {
     this.isSelectMultiple = isSelectMultiple;
     this.minDate = minDate;
     this.maxDate = maxDate;
+    this.filteredOptions = filteredOptions;
+    this.retrieveOptionsUrl = retrieveOptionsUrl;
   }
 }

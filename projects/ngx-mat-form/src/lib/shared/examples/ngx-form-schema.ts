@@ -212,14 +212,9 @@ export const ExampleMatForm: NgxMatFormSchema = {
       hint: {
         left: 'Add the user friends'
       },
-      availableValues: [
-        {id: 1, label: 'Marc Marquez', age: 31},
-        {id: 2, label: 'Alex Marquez', age: 28},
-        {id: 3, label: 'Pecco Bagnania', age: 28},
-        {id: 4, label: 'Casey Stonner', age: 32},
-      ],
-      displayProperty: 'label',
+      displayProperty: 'name',
       valueProperty: 'id',
+      retrieveOptionsUrl: 'https://rickandmortyapi.com/api/character'
     }
   ]
 }

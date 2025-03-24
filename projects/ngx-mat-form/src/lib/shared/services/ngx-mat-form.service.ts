@@ -3,6 +3,8 @@ import {ValidatorFn, Validators} from "@angular/forms";
 import {NgxMatField} from "../models/ngx-mat-field.model";
 import {NgxMatFormSchema} from "../models/ngx-mat-form-schema.model";
 import {NgxFieldTypes} from "../enums/ngx-mat-field-types.enum";
+import {Observable} from "rxjs";
+import {HttpClient} from "@angular/common/http";
 
 
 @Injectable({
@@ -10,7 +12,7 @@ import {NgxFieldTypes} from "../enums/ngx-mat-field-types.enum";
 })
 export class NgxMatFormService {
 
-  constructor() {
+  constructor(private http: HttpClient) {
   }
 
 
@@ -103,5 +105,9 @@ export class NgxMatFormService {
 
   clearStorageValues(ngxMatForm: NgxMatFormSchema): void {
     sessionStorage.removeItem(ngxMatForm.storeKey || ngxMatForm.id);
+  }
+
+  retrieveData(url: string): Observable<any> {
+    return this.http.get<any>(url);
   }
 }

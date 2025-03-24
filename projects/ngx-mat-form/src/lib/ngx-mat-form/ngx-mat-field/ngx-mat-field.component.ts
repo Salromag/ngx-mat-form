@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from "@angular/core";
-import {NgxFieldTypes, NgxMatField} from "../../shared";
-import {FormControl, FormGroup} from "@angular/forms";
-import {map, Observable, startWith} from "rxjs";
+import {NgxFieldTypes, NgxMatField, NgxMatFormService} from "../../shared";
+import {AbstractControl, FormControl, FormGroup} from "@angular/forms";
+import {map, startWith} from "rxjs";
 
 @Component({
   selector: "ngx-mat-field",
@@ -16,20 +16,21 @@ export class NgxMatFieldComponent implements OnInit {
   valueProperty: any;
   displayProperty: any;
 
-  constructor() {
+  constructor(private ngxMatFormService: NgxMatFormService) {
   }
 
   ngOnInit(): void {
-    let control = this.formGroup.get(this.field.name);
-    if (!control) {
-      control = new FormControl(null);
+    const control = this.formGroup.get(this.field.name) ?? new FormControl(null);
+    if (!this.formGroup.contains(this.field.name)) {
       this.formGroup.addControl(this.field.name, control);
     }
-    if (this.field.type === NgxFieldTypes.Autocomplete && this.field.availableValues) {
-      this.field.filteredOptions = control.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filter(value || '', this.field.availableValues || [])),
-      );
+
+    if (this.field.type === NgxFieldTypes.Autocomplete) {
+      if (this.field.availableValues?.length) {
+        this.setFilteredOptions(control);
+      } else if (this.field.retrieveOptionsUrl) {
+        this.getDataFromRemote(control);
+      }
     }
     this.fillProperties();
   }
@@ -59,5 +60,28 @@ export class NgxMatFieldComponent implements OnInit {
 
   displayFn(option: any): string {
     return option && this.field?.displayProperty ? option[this.field.displayProperty] : '';
+  }
+
+  private setFilteredOptions(control: AbstractControl): void {
+    this.field.filteredOptions = control.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || '', this.field.availableValues ?? []))
+    );
+  }
+
+  getDataFromRemote(control: AbstractControl): void {
+    if (this.field.retrieveOptionsUrl) {
+      this.ngxMatFormService.retrieveData(this.field.retrieveOptionsUrl).subscribe({
+        next: (response: any) => {
+          this.field.filteredOptions = control.valueChanges.pipe(
+            startWith(''),
+            map(value => this._filter(value || '', response || [])),
+          );
+        },
+        error: error => {
+          console.error(error);
+        }
+      })
+    }
   }
 }

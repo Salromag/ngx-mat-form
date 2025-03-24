@@ -16,6 +16,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatIconModule} from "@angular/material/icon";
 import {provideNativeDateAdapter} from "@angular/material/core";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {provideHttpClient} from "@angular/common/http";
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
   declarations: [NgxMatFormComponent, NgxMatFieldComponent],
   providers: [
     NgxMatFormService,
-    provideNativeDateAdapter()
+    provideNativeDateAdapter(),
+    provideHttpClient()
   ],
   exports: [NgxMatFormComponent, NgxMatFieldComponent]
 })

@@ -1,6 +1,6 @@
 <ng-container [formGroup]="formGroup">
   <!-- Autocomplete -->
-  @if (field.type === 'autocomplete' && field.availableValues) {
+  @if (field.type === 'autocomplete') {
     <mat-form-field class="example-full-width">
       <mat-label>{{ field.label }}</mat-label>
       <input type="text"
