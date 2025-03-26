@@ -1,10 +1,12 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {ValidatorFn, Validators} from "@angular/forms";
 import {NgxMatField} from "../models/ngx-mat-field.model";
 import {NgxMatFormSchema} from "../models/ngx-mat-form-schema.model";
 import {NgxFieldTypes} from "../enums/ngx-mat-field-types.enum";
-import {Observable} from "rxjs";
+import {config, Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
+import {CONFIG} from "../injection-token/config-token";
+import {NgxMatFormConfig} from "../models/ngx-mat-form-config.model";
 
 
 @Injectable({
@@ -12,7 +14,10 @@ import {HttpClient} from "@angular/common/http";
 })
 export class NgxMatFormService {
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    @Inject(CONFIG) private config: NgxMatFormConfig,
+  ) {
   }
 
 
@@ -58,6 +63,9 @@ export class NgxMatFormService {
   setProperty<T extends keyof NgxMatField>(fieldName: string, property: T, value: NgxMatField[T], schema: NgxMatFormSchema): void {
     schema.fields.forEach(field => {
       if (field.name === fieldName) {
+        if (this.config.debug) {
+          console.warn(`[${schema.name}]: Setting '${value}' value to ${field.name}.${field[property]} property`);
+        }
         field[property] = value;
       }
     })
@@ -89,6 +97,9 @@ export class NgxMatFormService {
   }
 
   store(ngxMatForm: NgxMatFormSchema, formValues: any): void {
+    if (this.config.debug) {
+      console.warn(`[${ngxMatForm.name}]: Storing '${JSON.stringify(formValues)}' in the session storage`);
+    }
     sessionStorage.setItem(ngxMatForm.storeKey || ngxMatForm.id, JSON.stringify(formValues));
   }
 
@@ -96,9 +107,11 @@ export class NgxMatFormService {
     const storageKey = ngxMatForm.storeKey || ngxMatForm.id;
     try {
       const storedValue: string | null = sessionStorage.getItem(storageKey);
+      if (this.config.debug) {
+        console.warn(`[${ngxMatForm.name}]: Restore '${storageKey}' values from the session storage`);
+      }
       return storedValue ? JSON.parse(storedValue) : null;
     } catch (error) {
-      console.error("Error parsing stored form data:", error);
       return null;
     }
   }
@@ -108,6 +121,9 @@ export class NgxMatFormService {
   }
 
   retrieveData(url: string): Observable<any> {
+    if (this.config.debug) {
+      console.warn(`Retrieving data from ${url}`);
+    }
     return this.http.get<any>(url);
   }
 }

@@ -1,4 +1,4 @@
-import {ModuleWithProviders, NgModule} from "@angular/core";
+import {LOCALE_ID, ModuleWithProviders, NgModule} from "@angular/core";
 import {NgxMatFormComponent} from "./ngx-mat-form/ngx-mat-form.component";
 import {NgxMatFormService} from "./shared/services/ngx-mat-form.service";
 import {CommonModule} from "@angular/common";
@@ -14,7 +14,7 @@ import {NgxMatFormConfig} from "./shared/models/ngx-mat-form-config.model";
 import {CONFIG} from './shared/injection-token/config-token';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatIconModule} from "@angular/material/icon";
-import {provideNativeDateAdapter} from "@angular/material/core";
+import {MAT_DATE_FORMATS, MAT_DATE_LOCALE, provideNativeDateAdapter} from "@angular/material/core";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {provideHttpClient} from "@angular/common/http";
 
@@ -30,7 +30,7 @@ import {provideHttpClient} from "@angular/common/http";
     MatRadioModule,
     MatDatepickerModule,
     MatIconModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
   ],
   declarations: [NgxMatFormComponent, NgxMatFieldComponent],
   providers: [
@@ -47,7 +47,9 @@ export class NgxMatFormModule {
       providers: [
         NgxMatFormService,
         provideNativeDateAdapter(),
-        { provide: CONFIG, useValue: config }
+        {provide: CONFIG, useValue: config},
+        {provide: MAT_DATE_LOCALE, useValue: config.locale},
+        {provide: LOCALE_ID, useValue: config.locale},
       ]
     };
   }

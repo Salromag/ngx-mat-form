@@ -1,6 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import {NgxFieldTypes, NgxMatField, NgxMatFormSchema, NgxMatFormService} from "../shared";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {CONFIG} from "../shared/injection-token/config-token";
 
 @Component({
   selector: 'ngx-mat-form',
@@ -18,7 +19,8 @@ export class NgxMatFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private ngxMatFormService: NgxMatFormService) {
+    private ngxMatFormService: NgxMatFormService,
+    @Inject(CONFIG) private config: NgxMatFormService,) {
   }
 
   ngOnInit() {
