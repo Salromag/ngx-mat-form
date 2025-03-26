@@ -214,7 +214,8 @@ export const ExampleMatForm: NgxMatFormSchema = {
       },
       displayProperty: 'name',
       valueProperty: 'id',
-      retrieveOptionsUrl: 'https://rickandmortyapi.com/api/character'
+      retrieveOptionsUrl: 'https://rickandmortyapi.com/api/character',
+      responseProperty: 'results'
     }
   ]
 }

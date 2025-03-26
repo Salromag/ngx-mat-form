@@ -48,7 +48,7 @@ export class NgxMatFormComponent implements OnInit {
     if (this.ngxMatFormSchema.restoreForm) {
       this.store();
     }
-    this.onSubmit.emit(this.form);
+    this.onSubmit.emit(this.form.value);
   }
 
   clear(): void {

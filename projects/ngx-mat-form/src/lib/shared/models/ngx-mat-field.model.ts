@@ -21,7 +21,8 @@ export class NgxMatField {
   public minDate?: Date;
   public maxDate?: Date;
   public filteredOptions?: Observable<string[]>;
-  public retrieveOptionsUrl?: string
+  public retrieveOptionsUrl?: string;
+  public responseProperty?: string;
 
   constructor(
     id: string,
@@ -42,7 +43,8 @@ export class NgxMatField {
     minDate?: Date,
     maxDate?: Date,
     filteredOptions?: Observable<string[]>,
-    retrieveOptionsUrl?: string) {
+    retrieveOptionsUrl?: string,
+    responseProperty?: string) {
     this.id = id;
     this.name = name;
     this.label = label;
@@ -59,5 +61,6 @@ export class NgxMatField {
     this.maxDate = maxDate;
     this.filteredOptions = filteredOptions;
     this.retrieveOptionsUrl = retrieveOptionsUrl;
+    this.responseProperty = responseProperty;
   }
 }

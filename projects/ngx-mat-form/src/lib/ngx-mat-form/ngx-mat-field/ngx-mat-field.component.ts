@@ -48,14 +48,18 @@ export class NgxMatFieldComponent implements OnInit {
     }
   }
 
-  private _filter(value: any, options: any[]): any[] {
+  private _filter(value: any, options: any): any[] {
     let filterValue: string = '';
     if (typeof value === 'string') {
       filterValue = value.toLowerCase();
     } else if (typeof value === 'object' && value !== null) {
       filterValue = value[this.displayProperty]?.toLowerCase() || '';
     }
-    return options.filter(option => option[this.displayProperty]?.toLowerCase().includes(filterValue));
+    if (this.field.responseProperty) {
+      return options[this.field.responseProperty].filter((option: any) => option[this.displayProperty]?.toLowerCase().includes(filterValue));
+    } else {
+      return options.filter((option: any) => option[this.displayProperty]?.toLowerCase().includes(filterValue));
+    }
   }
 
   displayFn(option: any): string {
