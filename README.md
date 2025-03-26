@@ -16,6 +16,7 @@ This Angular library allows you to dynamically create forms based on a schema. I
 
 | NgxMatForm Version | Angular Version | Angular Material Version |
 |--------------------|-----------------|--------------------------|
+| `1.5.0`            | `19.x`          | `19.x`                   |
 | `1.4.0`            | `19.x`          | `19.x`                   |
 | `1.3.0`            | `19.x`          | `19.x`                   |
 | `1.2.0`            | `19.x`          | `19.x`                   |
@@ -39,7 +40,10 @@ import { NgxMatFormModule } from 'ngx-mat-form';
   declarations: [AppComponent],
   imports: [
     ...
-      NgxMatFormModule  // Import the form module
+      NgxMatFormModule.forRoot({
+        debug: true,
+        locale: 'en-GB'
+      })  // Import the form module
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -67,6 +71,17 @@ export class AppModule {}
   (onReset)="handleReset($event)">
 </ngx-mat-form>
 ```
+
+## `NgxMatForm` Module configuration
+The module accepts configuration in order to debug and replace the locale for date formats and numbers
+
+- **`debug`** (boolean)
+  - Add logs to see traces
+  - Example: `true`.
+
+- **`locale`** (string)
+  - Add the locale of the application, used in MAT_DATE_LOCALE and LOCALE_ID parameter
+  - Example: `'en-GB'`.
 
 ## `NgxMatForm` Properties
 
@@ -167,60 +182,8 @@ Each object in the `fields` array has the following properties:
   - Url to get the results for an autocomplete
   - Example: `https://rickandmortyapi.com/api/character`
 
-- **`retrieveOpt- **`id`** (string)
-  - Unique identifier for the field.
-  - Example: `'name-field'`.
-
-- **`name`** (string)
-  - Name of the field, used for the form control.
-  - Example: `'name'`.
-
-- **`label`** (string)
-  - The label displayed for the field.
-  - Example: `'Name'`.
-
-- **`appearance`** (enum: `NgxMatFieldAppearance`)
-  - Defines the appearance style of the field.
-  - Example: `NgxMatFieldAppearance.Outline`.
-
-- **`type`** (enum: `NgxFieldTypes`)
-  - Specifies the type of the input field (e.g., text, email, number).
-  - Example: `NgxFieldTypes.Text`.
-
-- **`placeholder`** (string)
-  - Placeholder text for the input field.
-  - Example: `'Enter your name'`.
-
-- **`availableValues`** (any[])
-  - Array of elements for a select type, and radio buttons
-  - Example: `[{id: 1, label: 'Example label option'}]`.
-
-- **`isSelectMultiple`** (boolean)
-  - Define if a select is multiple
-  - Example: `true`.
-
-- **`displayProperty`** (string)
-  - Define the displayed label for the availableValues list
-  - Example: `'label'`.
-
-- **`valueProperty`** (string)
-  - Define the value of the options of the availableValues list
-  - Example: `'id'`.
-
-- **`minDate`** (Date)
-  - Define the minimum date of the datepicker field
-  - Example: `new Date(2000, 0, 1)`.
-
-- **`maxDate`** (Date)
-  - Define the maximum date of the datepicker field
-  - Example: `new Date(2030, 11, 31)`.
-
-- **`retrieveOptionsUrl`**  (string)
-  - Url to get the results for an autocomplete
-  - Example: `https://rickandmortyapi.com/api/character`
-
 - **`responseProperty`**  (string)
-  - Set the parameter of the retrieveOptionsUrl that contains the array of the results, use in case of response has a wrapped result 
+  - Set the parameter of the retrieveOptionsUrl that contains the array of the results, use in case of response has a wrapped result
   - Example: `results`
 
 - **`validators`** (array of objects)
