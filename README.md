@@ -182,9 +182,17 @@ Each object in the `fields` array has the following properties:
   - Url to get the results for an autocomplete
   - Example: `https://rickandmortyapi.com/api/character`
 
-- **`responseProperty`**  (string)
+- **`retrieveOptions`**  (string)
   - Set the parameter of the retrieveOptionsUrl that contains the array of the results, use in case of response has a wrapped result
-  - Example: `results`
+  - Example:
+  - ``` typescript
+    retrieveOptions: {
+        parameter: 'name', // name of the parameter to send as query param
+        async: true, // if async calls
+        characters: 3, // characters to start request
+        responseProperty: 'results', // result list parameter
+      }
+    ```
 
 - **`validators`** (array of objects)
   - Array of validation rules for the field.
@@ -277,7 +285,12 @@ export const DynamicFormSchema: NgxMatDynamicForm = {
       displayProperty: 'name',
       valueProperty: 'id',
       retrieveOptionsUrl: 'https://rickandmortyapi.com/api/character',
-      responsePropery: 'results'
+      retrieveOptions: {
+        parameter: 'name', // Name of the parameter to send
+        async: true,
+        characters: 3, // Will start requesting when user type 3 characters
+        responseProperty: 'results', // Response element list
+      }
     }
   ]
 };

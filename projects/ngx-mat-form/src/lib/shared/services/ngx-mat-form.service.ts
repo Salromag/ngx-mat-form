@@ -4,7 +4,7 @@ import {NgxMatField} from "../models/ngx-mat-field.model";
 import {NgxMatFormSchema} from "../models/ngx-mat-form-schema.model";
 import {NgxFieldTypes} from "../enums/ngx-mat-field-types.enum";
 import {config, Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {CONFIG} from "../injection-token/config-token";
 import {NgxMatFormConfig} from "../models/ngx-mat-form-config.model";
 
@@ -120,10 +120,15 @@ export class NgxMatFormService {
     sessionStorage.removeItem(ngxMatForm.storeKey || ngxMatForm.id);
   }
 
-  retrieveData(url: string): Observable<any> {
+  retrieveData(url: string, values?: Record<string, any>): Observable<any> {
+    const params = values
+      ? Object.entries(values).reduce((httpParams, [key, value]) =>
+        httpParams.append(key, String(value ?? '')), new HttpParams())
+      : new HttpParams();
     if (this.config.debug) {
-      console.warn(`Retrieving data from ${url}`);
+      console.warn(`Retrieving data from: ${url}`);
+      console.warn(`Params:`, params.toString());
     }
-    return this.http.get<any>(url);
+    return this.http.get<any>(url, {params});
   }
 }

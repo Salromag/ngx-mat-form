@@ -72,7 +72,6 @@ export class NgxMatFormComponent implements OnInit {
     this.form.patchValue(this.ngxMatFormService.restore(this.ngxMatFormSchema));
   }
 
-  // Formatting form
   getGridTemplate(): string {
     return `repeat(${this.ngxMatFormSchema.columns}, minmax(200px, 1fr))`;
   }

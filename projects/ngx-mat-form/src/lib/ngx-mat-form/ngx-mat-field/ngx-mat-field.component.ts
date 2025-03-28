@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from "@angular/core";
 import {NgxFieldTypes, NgxMatField, NgxMatFormService} from "../../shared";
 import {AbstractControl, FormControl, FormGroup} from "@angular/forms";
-import {map, startWith} from "rxjs";
+import {debounce, debounceTime, distinctUntilChanged, filter, map, Observable, of, startWith, switchMap} from "rxjs";
 
 @Component({
   selector: "ngx-mat-field",
@@ -24,7 +24,6 @@ export class NgxMatFieldComponent implements OnInit {
     if (!this.formGroup.contains(this.field.name)) {
       this.formGroup.addControl(this.field.name, control);
     }
-
     if (this.field.type === NgxFieldTypes.Autocomplete) {
       if (this.field.availableValues?.length) {
         this.setFilteredOptions(control);
@@ -55,8 +54,8 @@ export class NgxMatFieldComponent implements OnInit {
     } else if (typeof value === 'object' && value !== null) {
       filterValue = value[this.displayProperty]?.toLowerCase() || '';
     }
-    if (this.field.responseProperty) {
-      return options[this.field.responseProperty].filter((option: any) => option[this.displayProperty]?.toLowerCase().includes(filterValue));
+    if (this.field.retrieveOptions?.responseProperty) {
+      return options[this.field.retrieveOptions?.responseProperty].filter((option: any) => option[this.displayProperty]?.toLowerCase().includes(filterValue));
     } else {
       return options.filter((option: any) => option[this.displayProperty]?.toLowerCase().includes(filterValue));
     }
@@ -74,18 +73,54 @@ export class NgxMatFieldComponent implements OnInit {
   }
 
   getDataFromRemote(control: AbstractControl): void {
-    if (this.field.retrieveOptionsUrl) {
-      this.ngxMatFormService.retrieveData(this.field.retrieveOptionsUrl).subscribe({
-        next: (response: any) => {
-          this.field.filteredOptions = control.valueChanges.pipe(
-            startWith(''),
-            map(value => this._filter(value || '', response || [])),
-          );
-        },
-        error: error => {
-          console.error(error);
-        }
-      })
+    if (!this.field.retrieveOptionsUrl) return;
+    if (this.field.retrieveOptions?.async) {
+      this.handleAsyncDataRetrieval(control);
+    } else {
+      this.handleSyncDataRetrieval(control);
     }
+  }
+
+  private handleAsyncDataRetrieval(control: AbstractControl): void {
+    control.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      filter(value => this.shouldFetchData(value)),
+      switchMap(value => this.fetchData(value))
+    ).subscribe({
+      next: (response: any) => {
+        this.field.filteredOptions = of(this._filter(control.value, response || []));
+      },
+      error: error => console.error(error)
+    });
+  }
+
+  private handleSyncDataRetrieval(control: AbstractControl): void {
+    this.ngxMatFormService.retrieveData(this.field.retrieveOptionsUrl || '').subscribe({
+      next: (response: any) => {
+        this.field.filteredOptions = control.valueChanges.pipe(
+          startWith(''),
+          map(value => this._filter(value || '', response || [])),
+        );
+      },
+      error: error => console.error(error)
+    });
+  }
+
+  private shouldFetchData(value: any): boolean {
+    const minCharacters = this.field.retrieveOptions?.characters || 0;
+    return typeof value === 'string' && value.length >= minCharacters;
+  }
+
+  private fetchData(value: any): Observable<any> {
+    if (typeof value !== 'string' && typeof value !== 'number') {
+      return of([]);
+    }
+    const paramKey = this.field.retrieveOptions?.parameter;
+    if (!paramKey || typeof paramKey !== 'string') {
+      return of([]);
+    }
+    const params = {[paramKey]: value};
+    return this.ngxMatFormService.retrieveData(this.field.retrieveOptionsUrl || '', params);
   }
 }
