@@ -4,7 +4,7 @@ import {NgxMatFormButtonPositions} from "../enums/ngx-mat-form-button-positions.
 export class NgxMatFormSchema {
   public id: string;
   public name: string;
-  public restoreForm: boolean = false;
+  public restoreForm?: boolean = false;
   public storeKey?: string;
   public labelButtons: {
     submit: string,

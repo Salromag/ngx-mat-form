@@ -18,6 +18,12 @@
           <mat-option [value]="option" id="{{ option[valueProperty] + '-ac-option' }}">{{ option[displayProperty] }}</mat-option>
         }
       </mat-autocomplete>
+      @if (field.hint?.left) {
+        <mat-hint align="start">{{ field.hint?.left }}</mat-hint>
+      }
+      @if (field.hint?.right) {
+        <mat-hint align="end">{{ field.hint?.right }}</mat-hint>
+      }
     </mat-form-field>
   }
 

@@ -3,11 +3,10 @@ import {ValidatorFn, Validators} from "@angular/forms";
 import {NgxMatField} from "../models/ngx-mat-field.model";
 import {NgxMatFormSchema} from "../models/ngx-mat-form-schema.model";
 import {NgxFieldTypes} from "../enums/ngx-mat-field-types.enum";
-import {config, Observable} from "rxjs";
+import {Observable} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {CONFIG} from "../injection-token/config-token";
 import {NgxMatFormConfig} from "../models/ngx-mat-form-config.model";
-
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +18,6 @@ export class NgxMatFormService {
     @Inject(CONFIG) private config: NgxMatFormConfig,
   ) {
   }
-
 
   /**
    * Add validators for fields
@@ -36,6 +34,23 @@ export class NgxMatFormService {
       }
     });
     return validators;
+  }
+
+  /**
+   * Set a value to a form property
+   * @param property
+   * @param value
+   * @param schema
+   * @return true if value has been set successfully
+   */
+  setFormProperty<T extends keyof NgxMatFormSchema>(
+    property: T,
+    value: NgxMatFormSchema[T],
+    schema: NgxMatFormSchema
+  ): boolean {
+    return property in schema
+      ? (schema[property] = value, true)
+      : (console.warn(`Property "${property}" does not exist in schema.`), false);
   }
 
   /**

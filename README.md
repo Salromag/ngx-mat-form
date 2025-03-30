@@ -301,6 +301,14 @@ Service that provides useful tools to interact or modify the NgxMatFormSchema
 
 ### `NgxMatFormService` Features
 
+- **`setFormProperty`**
+  - Giving field name, and a customised array of entities, populate the availableValues of one field
+  - ```typescript
+    // Name of the form schema property
+    // Value applied
+    // NgxMatFormSchema
+    this.ngxMatFormService.setFormProperty('id', 'ngx-new-id', this.schema);
+    ```
 - **`setAvailableValues`**
   - Giving field name, and a customised array of entities, populate the availableValues of one field
   - ```typescript

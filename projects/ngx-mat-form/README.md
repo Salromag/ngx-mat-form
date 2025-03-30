@@ -288,7 +288,7 @@ export const DynamicFormSchema: NgxMatDynamicForm = {
       retrieveOptionsUrl: 'https://rickandmortyapi.com/api/character',
       retrieveOptions: {
         parameter: 'name', // Name of the parameter to send
-        async: true,
+        async: true, // Will request to retrieveOptionsUrl once user starts writing the autocomplete
         characters: 3, // Will start requesting when user type 3 characters
         responseProperty: 'results', // Response element list
       }
@@ -301,6 +301,14 @@ Service that provides useful tools to interact or modify the NgxMatFormSchema
 
 ### `NgxMatFormService` Features
 
+- **`setFormProperty`**
+  - Giving field name, and a customised array of entities, populate the availableValues of one field
+  - ```typescript
+    // Name of the form schema property
+    // Value applied
+    // NgxMatFormSchema
+    this.ngxMatFormService.setFormProperty('id', 'ngx-new-id', this.schema);
+    ```
 - **`setAvailableValues`**
   - Giving field name, and a customised array of entities, populate the availableValues of one field
   - ```typescript
