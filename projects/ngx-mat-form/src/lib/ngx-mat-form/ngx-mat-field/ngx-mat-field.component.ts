@@ -1,7 +1,18 @@
 import {Component, Input, OnInit} from "@angular/core";
 import {NgxFieldTypes, NgxMatField, NgxMatFormService} from "../../shared";
 import {AbstractControl, FormControl, FormGroup} from "@angular/forms";
-import {debounce, debounceTime, distinctUntilChanged, filter, map, Observable, of, startWith, switchMap} from "rxjs";
+import {
+  catchError,
+  debounce,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  Observable,
+  of,
+  startWith,
+  switchMap
+} from "rxjs";
 
 @Component({
   selector: "ngx-mat-field",
@@ -86,14 +97,18 @@ export class NgxMatFieldComponent implements OnInit {
       debounceTime(300),
       distinctUntilChanged(),
       filter(value => this.shouldFetchData(value)),
-      switchMap(value => this.fetchData(value))
-    ).subscribe({
-      next: (response: any) => {
-        this.field.filteredOptions = of(this._filter(control.value, response || []));
-      },
-      error: error => console.error(error)
+      switchMap(value =>
+        this.fetchData(value).pipe(
+          catchError(() => {
+            return of([]);
+          })
+        )
+      )
+    ).subscribe(response => {
+      this.field.filteredOptions = of(this._filter(control.value, response || []));
     });
   }
+
 
   private handleSyncDataRetrieval(control: AbstractControl): void {
     this.ngxMatFormService.retrieveData(this.field.retrieveOptionsUrl || '').subscribe({
@@ -108,7 +123,7 @@ export class NgxMatFieldComponent implements OnInit {
   }
 
   private shouldFetchData(value: any): boolean {
-    const minCharacters = this.field.retrieveOptions?.characters || 0;
+    const minCharacters: number = this.field.retrieveOptions?.characters || 0;
     return typeof value === 'string' && value.length >= minCharacters;
   }
 
