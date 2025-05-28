@@ -16,6 +16,8 @@ This Angular library allows you to dynamically create forms based on a schema. I
 
 | NgxMatForm Version | Angular Version | Angular Material Version |
 |--------------------|-----------------|--------------------------|
+| `1.7.0`            | `19.x`          | `19.x`                   |
+| `1.6.1`            | `19.x`          | `19.x`                   |
 | `1.6.0`            | `19.x`          | `19.x`                   |
 | `1.5.0`            | `19.x`          | `19.x`                   |
 | `1.4.0`            | `19.x`          | `19.x`                   |
@@ -148,7 +150,7 @@ Each object in the `fields` array has the following properties:
   - Example: `NgxMatFieldAppearance.Outline`.
 
 - **`type`** (enum: `NgxFieldTypes`)
-  - Specifies the type of the input field (e.g., text, email, number).
+  - Specifies the type of the input field (e.g., text, email, number, time, autocomplete...).
   - Example: `NgxFieldTypes.Text`.
 
 - **`placeholder`** (string)
