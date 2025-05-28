@@ -13,4 +13,5 @@ export enum NgxFieldTypes {
   Date = 'date',
   DateRange = 'daterange',
   Autocomplete = 'autocomplete',
+  Time  = 'time',
 }

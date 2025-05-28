@@ -13,7 +13,7 @@ export const ExampleMatForm: NgxMatFormSchema = {
     clear: "Clear",
     buttonPosition: NgxMatFormButtonPositions.Left
   },
-  columns: 3,
+  columns: 4,
   fields: [
     {
       id: 'name-field',
@@ -134,6 +134,17 @@ export const ExampleMatForm: NgxMatFormSchema = {
           value: 50
         }
       ],
+    },
+    {
+      id: 'time-field',
+      name: 'Time',
+      label: 'Time selection',
+      type: NgxFieldTypes.Time,
+      appearance: NgxMatFieldAppearance.Fill,
+      placeholder: 'Select the time',
+      hint: {
+        left: 'Exampel of hint'
+      }
     },
     {
       id: 'gender-field',
