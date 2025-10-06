@@ -1,141 +1,137 @@
-import {Component, Input, OnInit} from "@angular/core";
-import {NgxFieldTypes, NgxMatField, NgxMatFormService} from "../../shared";
-import {AbstractControl, FormControl, FormGroup} from "@angular/forms";
 import {
-  catchError,
-  debounce,
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  map,
-  Observable,
-  of,
-  startWith,
-  switchMap
-} from "rxjs";
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { NgxMatFormService, NgxMatField, NgxFieldTypes } from '../../shared';
+import { startWith, map, debounceTime, distinctUntilChanged, filter, switchMap, catchError, of } from 'rxjs';
 
 @Component({
-  selector: "ngx-mat-field",
-  templateUrl: "./ngx-mat-field.component.html",
-  styleUrls: ["./ngx-mat-field.component.scss"],
-  standalone: false
+  selector: 'ngx-mat-field',
+  templateUrl: './ngx-mat-field.component.html',
+  styleUrls: ['./ngx-mat-field.component.scss'],
+  standalone: false,
 })
-export class NgxMatFieldComponent implements OnInit {
-  @Input() field: NgxMatField;
-  @Input() formGroup: FormGroup;
+export class NgxMatFieldComponent {
+  private ngxMatFormService = inject(NgxMatFormService);
 
-  valueProperty: any;
-  displayProperty: any;
+  field = input.required<NgxMatField>();
+  formGroup = input.required<FormGroup>();
 
-  constructor(private ngxMatFormService: NgxMatFormService) {
-  }
+  // === Derived signals ===
+  valueProperty = computed(() =>
+    ['select', 'radio', 'autocomplete'].includes(this.field().type)
+      ? this.field().valueProperty || 'id'
+      : 'id'
+  );
 
-  ngOnInit(): void {
-    const control = this.formGroup.get(this.field.name) ?? new FormControl(null);
-    if (!this.formGroup.contains(this.field.name)) {
-      this.formGroup.addControl(this.field.name, control);
+  displayProperty = computed(() =>
+    ['select', 'radio', 'autocomplete'].includes(this.field().type)
+      ? this.field().displayProperty || 'label'
+      : 'label'
+  );
+
+  // === Filtered options as writable signal ===
+  filteredOptions = signal<any[]>([]);
+
+  private control: FormControl;
+
+  constructor() {
+    const field = this.field();
+    const fg = this.formGroup();
+
+    // Crear o recuperar el control
+    this.control = fg.get(field.name) as FormControl;
+    if (!this.control) {
+      this.control = new FormControl(null);
+      fg.addControl(field.name, this.control);
     }
-    if (this.field.type === NgxFieldTypes.Autocomplete) {
-      if (this.field.availableValues?.length) {
-        this.setFilteredOptions(control);
-      } else if (this.field.retrieveOptionsUrl) {
-        this.getDataFromRemote(control);
+
+    // Configurar autocomplete si aplica
+    if (field.type === NgxFieldTypes.Autocomplete) {
+      if (field.availableValues?.length) {
+        this.handleLocalAutocomplete();
+      } else if (field.retrieveOptionsUrl) {
+        this.handleRemoteAutocomplete();
       }
     }
-    this.fillProperties();
   }
 
-  getValidatorValue(field: NgxMatField, validatorName: string): any {
-    const validatorConfig = field.validators?.find((v: any) => v.validator === validatorName);
-    return validatorConfig ? validatorConfig.value : null;
-  }
+  // === Local autocomplete ===
+  private handleLocalAutocomplete(): void {
+    const available = this.field().availableValues ?? [];
 
-  private fillProperties(): void {
-    if (this.field.type === NgxFieldTypes.Select || this.field.type === NgxFieldTypes.Radio
-      || this.field.type === NgxFieldTypes.Autocomplete) {
-      this.valueProperty = this.field.valueProperty || 'id';
-      this.displayProperty = this.field.displayProperty || 'label';
-    }
-  }
-
-  private _filter(value: any, options: any): any[] {
-    let filterValue: string = '';
-    if (typeof value === 'string') {
-      filterValue = value.toLowerCase();
-    } else if (typeof value === 'object' && value !== null) {
-      filterValue = value[this.displayProperty]?.toLowerCase() || '';
-    }
-    if (this.field.retrieveOptions?.responseProperty) {
-      return options[this.field.retrieveOptions?.responseProperty].filter((option: any) => option[this.displayProperty]?.toLowerCase().includes(filterValue));
-    } else {
-      return options.filter((option: any) => option[this.displayProperty]?.toLowerCase().includes(filterValue));
-    }
-  }
-
-  displayFn(option: any): string {
-    return option && this.field?.displayProperty ? option[this.field.displayProperty] : '';
-  }
-
-  private setFilteredOptions(control: AbstractControl): void {
-    this.field.filteredOptions = control.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '', this.field.availableValues ?? []))
-    );
-  }
-
-  getDataFromRemote(control: AbstractControl): void {
-    if (!this.field.retrieveOptionsUrl) return;
-    if (this.field.retrieveOptions?.async) {
-      this.handleAsyncDataRetrieval(control);
-    } else {
-      this.handleSyncDataRetrieval(control);
-    }
-  }
-
-  private handleAsyncDataRetrieval(control: AbstractControl): void {
-    control.valueChanges.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      filter(value => this.shouldFetchData(value)),
-      switchMap(value =>
-        this.fetchData(value).pipe(
-          catchError(() => {
-            return of([]);
-          })
-        )
-      )
-    ).subscribe(response => {
-      this.field.filteredOptions = of(this._filter(control.value, response || []));
+    effect(() => {
+      this.control.valueChanges
+        .pipe(startWith(this.control.value))
+        .subscribe(value => {
+          this.filteredOptions.set(this._filter(value || '', available));
+        });
     });
   }
 
+  // === Remote autocomplete ===
+  private handleRemoteAutocomplete(): void {
+    const field = this.field();
+    const control = this.control;
 
-  private handleSyncDataRetrieval(control: AbstractControl): void {
-    this.ngxMatFormService.retrieveData(this.field.retrieveOptionsUrl || '').subscribe({
-      next: (response: any) => {
-        this.field.filteredOptions = control.valueChanges.pipe(
-          startWith(''),
-          map(value => this._filter(value || '', response || [])),
-        );
-      },
-      error: error => console.error(error)
+    effect(() => {
+      control.valueChanges
+        .pipe(
+          debounceTime(300),
+          distinctUntilChanged(),
+          filter(value => this.shouldFetchData(value)),
+          switchMap(value =>
+            this.fetchData(value).pipe(
+              catchError(() => of([])),
+              map(response => this._filter(control.value, response || []))
+            )
+          )
+        )
+        .subscribe(result => {
+          this.filteredOptions.set(result);
+        });
     });
   }
 
   private shouldFetchData(value: any): boolean {
-    const minCharacters: number = this.field.retrieveOptions?.characters || 0;
-    return typeof value === 'string' && value.length >= minCharacters;
+    const minChars = this.field().retrieveOptions?.characters || 0;
+    return typeof value === 'string' && value.length >= minChars;
   }
 
-  private fetchData(value: any): Observable<any> {
-    if (typeof value !== 'string' && typeof value !== 'number') {
-      return of([]);
-    }
-    const paramKey = this.field.retrieveOptions?.parameter;
-    if (!paramKey || typeof paramKey !== 'string') {
-      return of([]);
-    }
-    const params = {[paramKey]: value};
-    return this.ngxMatFormService.retrieveData(this.field.retrieveOptionsUrl || '', params);
+  private fetchData(value: any) {
+    const field = this.field();
+    if (!field.retrieveOptionsUrl) return of([]);
+
+    const paramKey = field.retrieveOptions?.parameter;
+    if (!paramKey) return of([]);
+
+    const params = { [paramKey]: value };
+    return this.ngxMatFormService.retrieveData(field.retrieveOptionsUrl, params);
+  }
+
+  // === Helpers ===
+  private _filter(value: any, options: any[]): any[] {
+    const displayKey = this.displayProperty();
+    const filterValue = typeof value === 'string' ? value.toLowerCase() : value?.[displayKey]?.toLowerCase() || '';
+  
+    const responseKey: any = this.field().retrieveOptions?.responseProperty;
+    const items = responseKey ? (options[responseKey] ?? []) : options;
+  
+    return items.filter((opt: any) =>
+      (opt[displayKey] ?? '').toLowerCase().includes(filterValue)
+    );
+  }
+  
+
+  displayFn = (option: any): string => option ? option[this.displayProperty()] : '';
+
+  getValidatorValue(field: NgxMatField, validatorName: string): any {
+    const validatorConfig = field.validators?.find(v => v.validator === validatorName);
+    return validatorConfig ? validatorConfig.value : null;
   }
 }

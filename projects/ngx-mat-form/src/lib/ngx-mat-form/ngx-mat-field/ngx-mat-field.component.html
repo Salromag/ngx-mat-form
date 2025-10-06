@@ -1,152 +1,183 @@
-<ng-container [formGroup]="formGroup">
+<ng-container [formGroup]="formGroup()">
   <!-- Autocomplete -->
-  @if (field.type === 'autocomplete') {
+  @if (field().type === 'autocomplete') {
   <mat-form-field class="example-full-width">
-    <mat-label>{{ field.label }}</mat-label>
-    <input type="text" [placeholder]="field.placeholder || field.name" [id]="field.id" [name]="field.name" matInput
-      [formControlName]="field.name" [matAutocomplete]="auto">
+    <mat-label>{{ field().label }}</mat-label>
+    <input type="text" [placeholder]="field().placeholder || field().name" [id]="field().id" [name]="field().name"
+      matInput [formControlName]="field().name" [matAutocomplete]="auto" />
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn.bind(this)">
-      @for (option of field.filteredOptions | async; track option) {
-      <mat-option [value]="option" id="{{ option[valueProperty] + '-ac-option' }}">{{ option[displayProperty]
-        }}</mat-option>
+      @for (option of filteredOptions(); track option[valueProperty()]) {
+      <mat-option [value]="option" id="{{ option[valueProperty()] + '-ac-option' }}">
+        {{ option[displayProperty()] }}
+      </mat-option>
       }
     </mat-autocomplete>
-    @if (field.hint?.left) {
-    <mat-hint align="start">{{ field.hint?.left }}</mat-hint>
+    @if (field().hint?.left) {
+    <mat-hint align="start">{{ field().hint?.left }}</mat-hint>
     }
-    @if (field.hint?.right) {
-    <mat-hint align="end">{{ field.hint?.right }}</mat-hint>
+    @if (field().hint?.right) {
+    <mat-hint align="end">{{ field().hint?.right }}</mat-hint>
     }
   </mat-form-field>
   }
 
   <!-- Dates -->
-  @if (field.type === 'date' || field.type == 'daterange' || field.type === 'time') {
-    @switch (field.type) {
-      @case ('date') {
-      <mat-form-field [appearance]="field.appearance">
-        <mat-label>{{ field.label }}</mat-label>
-        <input matInput [id]="field.id" [min]="field.minDate" [max]="field.maxDate" [name]="field.name"
-          [formControlName]="field.name" [matDatepicker]="picker">
-        <!-- Hints -->
-        @if (field.hint?.left) {
-        <mat-hint align="start">{{ field.hint?.left }}</mat-hint>
-        }
-        @if (field.hint?.right) {
-        <mat-hint align="end">{{ field.hint?.right }}</mat-hint>
-        }
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-      }
-      @case ('daterange') {
-      <mat-form-field>
-        <mat-label>{{ field.label }}</mat-label>
-        <mat-date-range-input [formGroup]="formGroup" [rangePicker]="picker">
-          <input matStartDate [id]="field.id + '-start'" [formControlName]="field.name + '-start'" placeholder="Start date">
-          <input matEndDate [id]="field.id + '-end'" [formControlName]="field.name + '-end'" placeholder="End date">
-        </mat-date-range-input>
-        <!-- Hints -->
-        @if (field.hint?.left) {
-        <mat-hint align="start">{{ field.hint?.left }}</mat-hint>
-        }
-        @if (field.hint?.right) {
-        <mat-hint align="end">{{ field.hint?.right }}</mat-hint>
-        }
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
-      </mat-form-field>
-      }
-      @case ('time') {
-      <mat-form-field [appearance]="field.appearance">
-        <mat-label>{{ field.label }}</mat-label>
-        <input matInput [matTimepicker]="timePicker" [id]="field.id" [formControlName]="field.name"
-          [placeholder]="field.placeholder || field.name">
-          @if (field.hint?.left) {
-            <mat-hint align="start">{{ field.hint?.left }}</mat-hint>
-            }
-            @if (field.hint?.right) {
-            <mat-hint align="end">{{ field.hint?.right }}</mat-hint>
-            }
-          <mat-timepicker #timePicker />
-          <mat-timepicker-toggle [for]="timePicker" matSuffix/>
-      </mat-form-field>
-      }
+  @if (
+  field().type === 'date' ||
+  field().type === 'daterange' ||
+  field().type === 'time'
+  ) {
+  @switch (field().type) {
+  @case ('date') {
+  <mat-form-field [appearance]="field().appearance">
+    <mat-label>{{ field().label }}</mat-label>
+    <input matInput [id]="field().id" [min]="field().minDate" [max]="field().maxDate" [name]="field().name"
+      [formControlName]="field().name" [matDatepicker]="picker" />
+
+    @if (field().hint?.left) {
+    <mat-hint align="start">{{ field().hint?.left }}</mat-hint>
     }
+    @if (field().hint?.right) {
+    <mat-hint align="end">{{ field().hint?.right }}</mat-hint>
+    }
+
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
   }
-  <!-- Checkbox and radios -->
-  @if (field.type === 'checkbox' || field.type === 'radio') {
+
+  @case ('daterange') {
+  <mat-form-field>
+    <mat-label>{{ field().label }}</mat-label>
+    <mat-date-range-input [formGroup]="formGroup()" [rangePicker]="picker">
+      <input matStartDate [id]="field().id + '-start'" [formControlName]="field().name + '-start'"
+        placeholder="Start date" />
+      <input matEndDate [id]="field().id + '-end'" [formControlName]="field().name + '-end'" placeholder="End date" />
+    </mat-date-range-input>
+
+    @if (field().hint?.left) {
+    <mat-hint align="start">{{ field().hint?.left }}</mat-hint>
+    }
+    @if (field().hint?.right) {
+    <mat-hint align="end">{{ field().hint?.right }}</mat-hint>
+    }
+
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+  }
+
+  @case ('time') {
+  <mat-form-field [appearance]="field().appearance">
+    <mat-label>{{ field().label }}</mat-label>
+    <input matInput [matTimepicker]="timePicker" [id]="field().id" [formControlName]="field().name"
+      [placeholder]="field().placeholder || field().name" />
+
+    @if (field().hint?.left) {
+    <mat-hint align="start">{{ field().hint?.left }}</mat-hint>
+    }
+    @if (field().hint?.right) {
+    <mat-hint align="end">{{ field().hint?.right }}</mat-hint>
+    }
+
+    <mat-timepicker #timePicker />
+    <mat-timepicker-toggle [for]="timePicker" matSuffix />
+  </mat-form-field>
+  }
+  }
+  }
+
+  <!-- Checkbox and Radios -->
+  @if (field().type === 'checkbox' || field().type === 'radio') {
   <section class="ngx-mat-form-section">
-    @switch (field.type) {
+    @switch (field().type) {
 
     @case ('checkbox') {
-    <mat-checkbox color="primary" [formControlName]="field.name" [id]="field.id" [name]="field.name">
-      {{ field.label }}
+    <mat-checkbox color="primary" [formControlName]="field().name" [id]="field().id" [name]="field().name">
+      {{ field().label }}
     </mat-checkbox>
     }
+
     @case ('radio') {
-    <mat-radio-group color="primary" [id]="field.id" [name]="field.name" [formControlName]="field.name">
-      @for (option of field.availableValues; track option[valueProperty]) {
-      <mat-radio-button [value]="option[valueProperty]">
-        {{ option[displayProperty] }}
+    <mat-radio-group color="primary" [id]="field().id" [name]="field().name" [formControlName]="field().name">
+      @for (option of field().availableValues; track option[valueProperty()]) {
+      <mat-radio-button [value]="option[valueProperty()]">
+        {{ option[displayProperty()] }}
       </mat-radio-button>
       }
     </mat-radio-group>
     }
     }
   </section>
-  <!-- Mat form fields -->
-  } @else if (field.type !== 'date' && field.type !== 'daterange' && field.type !== 'autocomplete' && field.type !== 'time') {
-  <mat-form-field [appearance]="field.appearance">
-    <mat-label>{{ field.label }}</mat-label>
-    @switch (field.type) {
+  }
+
+  <!-- Otros campos -->
+  @else if (
+  field().type !== 'date' &&
+  field().type !== 'daterange' &&
+  field().type !== 'autocomplete' &&
+  field().type !== 'time'
+  ) {
+  <mat-form-field [appearance]="field().appearance">
+    <mat-label>{{ field().label }}</mat-label>
+
+    @switch (field().type) {
     @case ('textarea') {
-    <textarea matInput [formControlName]="field.name" [id]="field.id" [name]="field.name"
-      [placeholder]="field.placeholder || field.name">
-        </textarea>
+    <textarea matInput [formControlName]="field().name" [id]="field().id" [name]="field().name"
+      [placeholder]="field().placeholder || field().name"></textarea>
     }
+
     @case ('select') {
-    <mat-select [formControlName]="field.name" [id]="field.id" [multiple]="field.isSelectMultiple || false">
-      @for (option of field.availableValues; track option[valueProperty]) {
-      <mat-option [id]="option[valueProperty]" [value]="option[valueProperty]">
-        {{ option[displayProperty] }}
+    <mat-select [formControlName]="field().name" [id]="field().id" [multiple]="field().isSelectMultiple || false">
+      @for (option of field().availableValues; track option[valueProperty()]) {
+      <mat-option [id]="option[valueProperty()]" [value]="option[valueProperty()]">
+        {{ option[displayProperty()] }}
       </mat-option>
       }
     </mat-select>
     }
+
     @default {
-    <input matInput [type]="field.type" [formControlName]="field.name" [id]="field.id" [name]="field.name"
-      [placeholder]="field.placeholder || field.name">
+    <input matInput [type]="field().type" [formControlName]="field().name" [id]="field().id" [name]="field().name"
+      [placeholder]="field().placeholder || field().name" />
     }
     }
+
     <!-- Hints -->
-    @if (field.hint?.left) {
-    <mat-hint align="start">{{ field.hint?.left }}</mat-hint>
+    @if (field().hint?.left) {
+    <mat-hint align="start">{{ field().hint?.left }}</mat-hint>
     }
-    @if (field.hint?.right) {
-    <mat-hint align="end">{{ field.hint?.right }}</mat-hint>
+    @if (field().hint?.right) {
+    <mat-hint align="end">{{ field().hint?.right }}</mat-hint>
     }
-    <!-- Required -->
-    <mat-error *ngIf="formGroup.get(field.name)?.hasError('required')">
-      {{ field.label }} is required.
+
+    <!-- Errores -->
+    <mat-error *ngIf="formGroup().get(field().name)?.hasError('required')">
+      {{ field().label }} is required.
     </mat-error>
-    <!-- Pattern -->
-    <mat-error *ngIf="formGroup.get(field.name)?.hasError('pattern')">
-      {{ field.label }} does not match the allowed format.
+
+    <mat-error *ngIf="formGroup().get(field().name)?.hasError('pattern')">
+      {{ field().label }} does not match the allowed format.
     </mat-error>
-    <!-- Characters length -->
-    <mat-error *ngIf="formGroup.get(field.name)?.hasError('minlength')">
-      {{ field.label }} must contain at least {{ getValidatorValue(field, 'minLength') }} characters.
+
+    <mat-error *ngIf="formGroup().get(field().name)?.hasError('minlength')">
+      {{ field().label }} must contain at least
+      {{ getValidatorValue(field(), 'minLength') }} characters.
     </mat-error>
-    <mat-error *ngIf="formGroup.get(field.name)?.hasError('maxlength')">
-      {{ field.label }} must not contain more than {{ getValidatorValue(field, 'maxLength') }} characters.
+
+    <mat-error *ngIf="formGroup().get(field().name)?.hasError('maxlength')">
+      {{ field().label }} must not contain more than
+      {{ getValidatorValue(field(), 'maxLength') }} characters.
     </mat-error>
-    <!-- Number quantity -->
-    <mat-error *ngIf="formGroup.get(field.name)?.hasError('min')">
-      {{ field.label }} must be greater than {{ getValidatorValue(field, 'min') }}.
+
+    <mat-error *ngIf="formGroup().get(field().name)?.hasError('min')">
+      {{ field().label }} must be greater than
+      {{ getValidatorValue(field(), 'min') }}.
     </mat-error>
-    <mat-error *ngIf="formGroup.get(field.name)?.hasError('max')">
-      {{ field.label }} must be less than {{ getValidatorValue(field, 'max') }}.
+
+    <mat-error *ngIf="formGroup().get(field().name)?.hasError('max')">
+      {{ field().label }} must be less than
+      {{ getValidatorValue(field(), 'max') }}.
     </mat-error>
   </mat-form-field>
   }
