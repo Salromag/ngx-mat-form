@@ -3,7 +3,6 @@ import {NgxFieldTypes, NgxMatField, NgxMatFormService} from "../../shared";
 import {AbstractControl, FormControl, FormGroup} from "@angular/forms";
 import {
   catchError,
-  debounce,
   debounceTime,
   distinctUntilChanged,
   filter,

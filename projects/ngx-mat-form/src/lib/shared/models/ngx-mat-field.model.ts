@@ -28,6 +28,7 @@ export class NgxMatField {
     characters?: 3
     responseProperty?: string,
   }
+  public fields?: NgxMatField[];
 
   constructor(
     id: string,
@@ -54,7 +55,8 @@ export class NgxMatField {
       async?: boolean,
       characters?: 3
       responseProperty?: string,
-    }) {
+    },
+    fields?: NgxMatField[]) {
     this.id = id;
     this.name = name;
     this.label = label;
@@ -72,5 +74,6 @@ export class NgxMatField {
     this.filteredOptions = filteredOptions;
     this.retrieveOptionsUrl = retrieveOptionsUrl;
     this.retrieveOptions = retrieveOptions;
+    this.fields = fields;
   }
 }
