@@ -16,6 +16,7 @@ This Angular library allows you to dynamically create forms based on a schema. I
 
 | NgxMatForm Version | Angular Version | Angular Material Version | Node Version |
 |--------------------|-----------------|--------------------------| -------------|
+| `3.0.0`            | `20.x`          | `20.x`                   | `22.x`       | 
 | `2.0.0`            | `20.x`          | `19.x`                   | `22.x`       | 
 | `1.7.0`            | `19.x`          | `19.x`                   | `20.x`       | 
 | `1.6.1`            | `19.x`          | `19.x`                   | `20.x`       | 
