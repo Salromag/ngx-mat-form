@@ -1,42 +1,44 @@
 # NgxMatForm
 
-This Angular library allows you to dynamically create forms based on a schema. It leverages Angular Reactive Forms and Angular Material components to generate forms with configurable fields, appearance, and validation. The library supports rendering forms dynamically by passing a schema that defines the fields, their types, validation rules, and appearance.
+**NgxMatForm** is an Angular library that allows you to dynamically create forms based on a schema.  
+It leverages Angular Reactive Forms and Angular Material components to generate forms with configurable fields, appearance, and validation.  
+You can render forms dynamically by passing a schema that defines the fields, their types, validation rules, and appearance.
 
-## Key Features
+---
 
-- **Dynamic Form Generation**: Generate forms based on a schema, making it easy to create forms without manually defining each field.
-- **Field Types**: Support for multiple input types, such as text, email, number, and more.
-- **Validation**: Supports various Angular Validators (like `required`, `minLength`, `maxLength`, `pattern`, etc.), and validation rules can be customized per field.
-- **Appearance Customization**: The appearance of form fields can be easily customized using Angular Material styles (e.g., `Outline`, `Filled`).
-- **Responsive Layout**: The library allows for flexible layout management using grid columns, making it responsive to different screen sizes.
-- **Customizable Labels and Buttons**: Customize button labels (e.g., submit, clear) and field labels based on the schema configuration.
-- **Storage of form values**: Store and restore form values with only one parameter
+## 🚀 Key Features
 
-## Compatibility Table
+- **Dynamic Form Generation**: Automatically generate forms based on a schema, avoiding manual field definitions.
+- **Field Types**: Supports multiple input types (text, email, number, date, autocomplete, etc.).
+- **Validation**: Includes Angular Validators (`required`, `minLength`, `maxLength`, `pattern`, etc.) with customizable rules per field.
+- **Appearance Customization**: Easily customize form field appearance using Angular Material styles (`Outline`, `Filled`, etc.).
+- **Responsive Layout**: Flexible grid-based layout system for responsiveness across devices.
+- **Customizable Labels and Buttons**: Configure button and field labels directly from the schema.
+
+---
+
+## 🧩 Compatibility Table
 
 | NgxMatForm Version | Angular Version | Angular Material Version | Node Version |
-|--------------------|-----------------|--------------------------| -------------|
+|--------------------|-----------------|--------------------------|--------------|
+| `3.1.0`            | `20.x`          | `20.x`                   | `22.x`       |
 | `3.0.0`            | `20.x`          | `20.x`                   | `22.x`       | 
 | `2.0.0`            | `20.x`          | `19.x`                   | `22.x`       | 
-| `1.7.0`            | `19.x`          | `19.x`                   | `20.x`       | 
-| `1.6.1`            | `19.x`          | `19.x`                   | `20.x`       | 
-| `1.6.0`            | `19.x`          | `19.x`                   | `20.x`       | 
-| `1.5.0`            | `19.x`          | `19.x`                   | `20.x`       | 
-| `1.4.0`            | `19.x`          | `19.x`                   | `20.x`       | 
-| `1.3.0`            | `19.x`          | `19.x`                   | `20.x`       | 
-| `1.2.0`            | `19.x`          | `19.x`                   | `20.x`       | 
-| `1.1.0`            | `19.x`          | `19.x`                   | `20.x`       | 
-| `1.0.0`            | `19.x`          | `19.x`                   | `20.x`       | 
+| `1.7.0` → `1.0.0`  | `19.x`          | `19.x`                   | `20.x`       | 
 
-### Installation
+---
 
-First, install the `ngx-mat-form` library from npm.
+## 📦 Installation
+
+Install the library from npm:
 
 ```bash
 npm install ngx-mat-form
 ```
 
-In your `app.module.ts`, import the `NgxMatFormModule` from the library and ensure that the necessary Angular Material modules are also imported (if not already done).
+### With NgModule
+
+In your `app.module.ts`:
 
 ```typescript
 import { NgxMatFormModule } from 'ngx-mat-form';
@@ -44,29 +46,30 @@ import { NgxMatFormModule } from 'ngx-mat-form';
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    ...
-      NgxMatFormModule.forRoot({
-        debug: true,
-        locale: 'en-GB'
-      })  // Import the form module
+    NgxMatFormModule.forRoot({
+      debug: true,
+      locale: 'en-GB'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
 ```
-## `NgxMatForm` docs
-- **`ngxMatFormSchema`** Input (NgxMatFormSchema)
-  - Schema to be displayed.
 
-- **`onFormChanges`** Output(FormGroup)
-  - Emit FormGroup when form value change
+## 🧱 `NgxMatForm` Component
 
-- **`onSubmit`** Output(FormGroup)
-  - Emit FormGroup when form is submitted
+### Inputs
 
-- **`onReset`** Output(void)
-  - Emit FormGroup when form is cleared
+- **`ngxMatFormSchema`** (`NgxMatFormSchema`): Schema that defines the form structure.
+
+### Outputs
+
+- **`onFormChanges`** (`FormGroup`): Emits when the form value changes.
+- **`onSubmit`** (`FormGroup`): Emits when the form is submitted.
+- **`onReset`** (`void`): Emits when the form is reset.
+
+Example usage:
 
 ```html
 <ngx-mat-form
@@ -77,149 +80,102 @@ export class AppModule {}
 </ngx-mat-form>
 ```
 
-## `NgxMatForm` Module configuration
-The module accepts configuration in order to debug and replace the locale for date formats and numbers
+---
 
-- **`debug`** (boolean)
-  - Add logs to see traces
-  - Example: `true`.
+## ⚙️ Module Configuration
 
-- **`locale`** (string)
-  - Add the locale of the application, used in MAT_DATE_LOCALE and LOCALE_ID parameter
-  - Example: `'en-GB'`.
+The module accepts configuration options for debugging and locale settings.
 
-## `NgxMatForm` Properties
+| Property | Type | Description | Example |
+|-----------|------|-------------|----------|
+| `debug` | `boolean` | Enables internal logging | `true` |
+| `locale` | `string` | Sets locale for dates and numbers | `'en-GB'` |
 
-The `NgxMatForm` schema defines the structure and configuration for a dynamic form. Below are the main properties you can use:
+---
 
-- **`id`** (string)
-  - Unique identifier for the form.
-  - Example: `'DynamicFormSchemaId'`.
+## 📘 `NgxMatForm` Schema Properties
 
-- **`name`** (string)
-  - Name of the form, typically used for reference or accessibility purposes.
-  - Example: `'DynamicFormSchemaName'`.
+Defines the configuration for dynamic forms.
 
-- **`restore`** (boolean)
-  - Set true if the form should be restored on initialization.
-  - Example: `true`.
+| Property | Type | Description | Example |
+|-----------|------|-------------|----------|
+| `id` | `string` | Unique form identifier | `'DynamicFormSchemaId'` |
+| `name` | `string` | Name of the form | `'DynamicFormSchemaName'` |
+| `restore` | `boolean` | Restores form state on initialization | `true` |
+| `storeKey` | `string` | Key used for session storage | `'ngx.mat.form.schema.myfeature'` |
+| `labelButtons` | `object` | Labels for action buttons | `{ submit: 'Submit', clear: 'Clear' }` |
+| `columns` | `number` | Grid column count | `4` |
+| `fields` | `NgxMatField[]` | Array of field configurations | — |
 
-- **`storeKey`** (string)
-  - The key of the form storage in the session store
-  - Example: `ngx.mat.form.schema.myfeature`.
+---
 
-- **`labelButtons`** (object)
-  - Defines the labels for form buttons such as submit and clear.
-  - Properties:
-    - **`submit`** (string): Label for the submit button.
-    - **`clear`** (string): Label for the clear button.
-  - Example:
-    ```typescript
-    ...
-    labelButtons: {
-      submit: 'Submit',
-      clear: 'Clear',
-      buttonPosition: NgxMatFormButtonPositions.Left
-    },
-    ...
-    ```
+## 🧩 `NgxMatField` Properties
 
-- **`columns`** (number)
-  - Defines the number of columns to be used for the form layout.
-  - Example: `4`.
+| Property | Type | Description | Example |
+|-----------|------|-------------|----------|
+| `id` | `string` | Field identifier | `'name-field'` |
+| `name` | `string` | Control name | `'name'` |
+| `label` | `string` | Field label | `'Name'` |
+| `appearance` | `NgxMatFieldAppearance` | Material appearance | `NgxMatFieldAppearance.Outline` |
+| `type` | `NgxFieldTypes` | Input type | `NgxFieldTypes.Text` |
+| `placeholder` | `string` | Input placeholder | `'Enter your name'` |
+| `availableValues` | `any[]` | Values for select/radio fields | `[{id: 1, label: 'Example'}]` |
+| `isSelectMultiple` | `boolean` | Allows multiple selections | `true` |
+| `displayProperty` | `string` | Property name to display | `'label'` |
+| `valueProperty` | `string` | Property name for value | `'id'` |
+| `minDate` / `maxDate` | `Date` | Min/max date for pickers | `new Date(2000,0,1)` |
+| `retrieveOptionsUrl` | `string` | API URL for autocomplete | `'https://api.example.com'` |
+| `retrieveOptions` | `object` | Async autocomplete configuration | See below |
+| `validators` | `Array<object>` | Validation rules | See below |
 
-- **`fields`** (array of `NgxMatField`)
-  - Array that defines the form fields. Each field is an object of type `NgxMatField`.
+Example `retrieveOptions`:
+```typescript
+retrieveOptions: {
+  parameter: 'name',
+  async: true,
+  characters: 3,
+  responseProperty: 'results'
+}
+```
 
-### `NgxMatField` Properties
+Example `validators`:
+```typescript
+validators: [
+  { validator: 'required', value: true },
+  { validator: 'minLength', value: 2 }
+]
+```
 
-Each object in the `fields` array has the following properties:
+## 🧰 `NgxMatFormService`
 
-- **`id`** (string)
-  - Unique identifier for the field.
-  - Example: `'name-field'`.
+Utility service to interact with or modify a form schema.
 
-- **`name`** (string)
-  - Name of the field, used for the form control.
-  - Example: `'name'`.
+### Methods
 
-- **`label`** (string)
-  - The label displayed for the field.
-  - Example: `'Name'`.
+- **`setFormProperty(property, value, schema)`**
+  ```typescript
+  this.ngxMatFormService.setFormProperty('id', 'ngx-new-id', this.schema);
+  ```
 
-- **`appearance`** (enum: `NgxMatFieldAppearance`)
-  - Defines the appearance style of the field.
-  - Example: `NgxMatFieldAppearance.Outline`.
+- **`setAvailableValues(field, values, schema)`**
+  ```typescript
+  this.ngxMatFormService.setAvailableValues('gender', this.exampleOptions, this.schema);
+  ```
 
-- **`type`** (enum: `NgxFieldTypes`)
-  - Specifies the type of the input field (e.g., text, email, number, time, autocomplete...).
-  - Example: `NgxFieldTypes.Text`.
+- **`setProperty(field, property, value, schema)`**
+  ```typescript
+  this.ngxMatFormService.setProperty('gender', 'valueProperty', 'versionId', this.schema);
+  this.ngxMatFormService.setProperty('gender', 'displayProperty', 'code', this.schema);
+  ```
 
-- **`placeholder`** (string)
-  - Placeholder text for the input field.
-  - Example: `'Enter your name'`.
+- **`clearStorageValues(schema)`**
+  ```typescript
+  this.ngxMatFormService.clearStorageValues(this.schema);
+  ```
 
-- **`availableValues`** (any[])
-  - Array of elements for a select type, and radio buttons
-  - Example: `[{id: 1, label: 'Example label option'}]`.
+---
 
-- **`isSelectMultiple`** (boolean)
-  - Define if a select is multiple
-  - Example: `true`.
-
-- **`displayProperty`** (string)
-  - Define the displayed label for the availableValues list
-  - Example: `'label'`.
-
-- **`valueProperty`** (string)
-  - Define the value of the options of the availableValues list
-  - Example: `'id'`.
-
-- **`minDate`** (Date)
-  - Define the minimum date of the datepicker field
-  - Example: `new Date(2000, 0, 1)`.
-
-- **`maxDate`** (Date)
-  - Define the maximum date of the datepicker field
-  - Example: `new Date(2030, 11, 31)`.
-
-- **`retrieveOptionsUrl`**  (string)
-  - Url to get the results for an autocomplete
-  - Example: `https://rickandmortyapi.com/api/character`
-
-- **`retrieveOptions`**  (string)
-  - Set the parameter of the retrieveOptionsUrl that contains the array of the results, use in case of response has a wrapped result
-  - Example:
-  - ``` typescript
-    retrieveOptions: {
-        parameter: 'name', // name of the parameter to send as query param
-        async: true, // if async calls
-        characters: 3, // characters to start request
-        responseProperty: 'results', // result list parameter
-      }
-    ```
-
-- **`validators`** (array of objects)
-  - Array of validation rules for the field.
-  - Each object contains:
-    - **`validator`** (string): The type of validator (e.g., `'required'`, `'minLength'`).
-    - **`value`** (any): The value associated with the validator (e.g., `true`, `10`, regex pattern).
-
-  - Example:
-    ```typescript
-    validators: [
-      {
-        validator: 'required',
-        value: true
-      },
-      {
-        validator: 'minLength',
-        value: 2
-      }
-    ]
-    ```
-
-### Example
+## 🧩 Example Schema
 
 ```typescript
 export const DynamicFormSchema: NgxMatDynamicForm = {
@@ -241,12 +197,7 @@ export const DynamicFormSchema: NgxMatDynamicForm = {
       appearance: NgxMatFieldAppearance.Outline,
       type: NgxFieldTypes.Text,
       placeholder: 'Enter your name',
-      validators: [
-        {
-          validator: 'required',
-          value: true
-        }
-      ]
+      validators: [{ validator: 'required', value: true }]
     },
     {
       id: 'gender-field',
@@ -255,14 +206,14 @@ export const DynamicFormSchema: NgxMatDynamicForm = {
       type: NgxFieldTypes.Select,
       appearance: NgxMatFieldAppearance.Outline,
       placeholder: 'Select gender',
-      displayProperty : 'label',
+      displayProperty: 'label',
       valueProperty: 'id',
       isSelectMultiple: true,
       availableValues: [
         { id: 1, label: 'Male' },
         { id: 2, label: 'Female' },
-        { id: 3, label: 'Other' },
-      ],
+        { id: 3, label: 'Other' }
+      ]
     },
     {
       id: 'birthday-field',
@@ -271,9 +222,7 @@ export const DynamicFormSchema: NgxMatDynamicForm = {
       type: NgxFieldTypes.Date,
       appearance: NgxMatFieldAppearance.Outline,
       placeholder: 'User birthday',
-      hint: {
-        left: 'Add the user birthday'
-      },
+      hint: { left: 'Add the user birthday' },
       minDate: new Date(2000, 0, 1),
       maxDate: new Date(2030, 11, 31)
     },
@@ -283,68 +232,32 @@ export const DynamicFormSchema: NgxMatDynamicForm = {
       label: 'Friends',
       type: NgxFieldTypes.Autocomplete,
       appearance: NgxMatFieldAppearance.Fill,
-      placeholder: 'User friends birthday',
-      hint: {
-        left: 'Add the user friends'
-      },
+      placeholder: 'User friends',
+      hint: { left: 'Add the user friends' },
       displayProperty: 'name',
       valueProperty: 'id',
       retrieveOptionsUrl: 'https://rickandmortyapi.com/api/character',
       retrieveOptions: {
-        parameter: 'name', // Name of the parameter to send
-        async: true, // Will request to retrieveOptionsUrl once user starts writing the autocomplete
-        characters: 3, // Will start requesting when user type 3 characters
-        responseProperty: 'results', // Response element list
+        parameter: 'name',
+        async: true,
+        characters: 3,
+        responseProperty: 'results'
       }
     }
   ]
 };
 ```
-## NgxMatFormService
-Service that provides useful tools to interact or modify the NgxMatFormSchema
-
-### `NgxMatFormService` Features
-
-- **`setFormProperty`**
-  - Giving field name, and a customised array of entities, populate the availableValues of one field
-  - ```typescript
-    // Name of the form schema property
-    // Value applied
-    // NgxMatFormSchema
-    this.ngxMatFormService.setFormProperty('id', 'ngx-new-id', this.schema);
-    ```
-- **`setAvailableValues`**
-  - Giving field name, and a customised array of entities, populate the availableValues of one field
-  - ```typescript
-    // Name of the field
-    // Elements to apply
-    // NgxMatFormSchema
-    this.ngxMatFormService.setAvailableValues('gender', this.exampleOptions, this.schema);
-    ```
-- **`setProperty`**
-  - Override a property of one field.
-  - ```typescript
-    // Name of the field
-    // Property to override
-    // Value to applied to the propery
-    // NgxMatFormSchema
-    this.ngxMatFormService.setProperty('gender', 'valueProperty', 'versionId', this.schema);
-    this.ngxMatFormService.setProperty('gender', 'displayProperty', 'code', this.schema);
-    ```
-- **`clearStorageValues`**
-  - Remove storage values from session storage of one form
-  - ```typescript
-    this.ngxMatFormService.clearStorageValues(this.schema);
-    ```
-
-## Benefits
-
-- **Dynamic and Configurable**: Easily add or remove fields, change field types, or adjust validation rules based on the schema.
-- **Reusable**: The same schema can be reused across different parts of the application, reducing duplication and improving consistency.
-- **Consistent Design**: With Angular Material integration, the form automatically adheres to Material Design principles, ensuring a consistent user experience across your application.
-- **Flexible Layout**: Allows for responsive layout management using grid columns, adapting to different screen sizes.
-- **Easy to Use**: Create forms with minimal configuration, just by defining the fields and validation in the schema.
-- **Angular Reactive Forms Integration**: Fully integrates with Angular's Reactive Forms, offering powerful form control features like validation, error handling, and state management.
 
 ---
-This section describes the functionality and purpose of the library in English. You can add this to your `README.md` to give users an overview of how the library works and how it can be beneficial.
+
+## 🌟 Benefits
+
+- **Dynamic and Configurable**: Add or remove fields, adjust types, or modify validation rules via schema.
+- **Reusable**: Reuse the same schema across multiple components.
+- **Consistent Design**: Built with Angular Material, ensuring a cohesive UI.
+- **Flexible Layout**: Responsive and grid-based for adaptive layouts.
+- **Simple to Use**: Define forms with minimal configuration.
+- **Reactive Forms Integration**: Full compatibility with Angular Reactive Forms for validation.
+---
+
+🛠 Maintained by **NgxMatForm Team**
