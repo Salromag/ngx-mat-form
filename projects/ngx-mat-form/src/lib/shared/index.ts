@@ -9,3 +9,5 @@ export * from './models/ngx-mat-form-schema.model';
 export * from './examples/ngx-form-schema';
 // Services
 export * from './services/ngx-mat-form.service';
+// Store
+export * from './store';

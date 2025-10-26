@@ -1,7 +1,9 @@
-import {Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {NgxFieldTypes, NgxMatField, NgxMatFormSchema, NgxMatFormService} from "../shared";
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {CONFIG} from "../shared/injection-token/config-token";
+import { Component, EventEmitter, inject, Inject, Input, OnInit, Output } from '@angular/core';
+import { NgxFieldTypes, NgxMatField, NgxMatFormSchema, NgxMatFormService } from "../shared";
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { NgxFormStore } from '../shared';
+import { CONFIG } from "../shared/injection-token/config-token";
+import { NgxMatFormConfig } from '../shared/models/ngx-mat-form-config.model';
 
 @Component({
   selector: 'ngx-mat-form',
@@ -16,11 +18,12 @@ export class NgxMatFormComponent implements OnInit {
   @Output() onFormChanges: EventEmitter<FormGroup> = new EventEmitter();
 
   form: FormGroup;
+  readonly formStore = inject(NgxFormStore);
 
   constructor(
     private formBuilder: FormBuilder,
     private ngxMatFormService: NgxMatFormService,
-    @Inject(CONFIG) private config: NgxMatFormService,) {
+    @Inject(CONFIG) private config: NgxMatFormConfig,) {
   }
 
   ngOnInit() {
@@ -44,32 +47,39 @@ export class NgxMatFormComponent implements OnInit {
       }
     });
     this.form = this.formBuilder.group(formControls);
+    if (this.config.debug) {
+      console.info(`[${this.ngxMatFormSchema.name}]: Saving '${this.form.value}' value to `);
+    }
+    this.formStore.updateForm(this.form);
   }
 
   submit(): void {
     if (this.ngxMatFormSchema.restoreForm) {
       this.store();
     }
-    this.onSubmit.emit(this.form.value);
+    this.onSubmit.emit(this.formStore.form().value);
   }
 
   clear(): void {
     this.form.reset();
-    this.onReset.emit(this.form.value);
+    this.onReset.emit(this.formStore.form().value);
+     if (this.config.debug) {
+      console.info(`[${this.ngxMatFormSchema.name}]: Form cleared: '${this.formStore.form().value}'`);
+    }
   }
 
   onFormChange(): void {
-    this.form.valueChanges.subscribe((value: any) => {
+    this.formStore.form().valueChanges.subscribe((value: any) => {
       this.onFormChanges.emit(value);
     })
   }
 
   store(): void {
-    this.ngxMatFormService.store(this.ngxMatFormSchema, this.form.value);
+    this.ngxMatFormService.store(this.ngxMatFormSchema, this.formStore.form().value);
   }
 
   restoreFormValues(): void {
-    this.form.patchValue(this.ngxMatFormService.restore(this.ngxMatFormSchema));
+    this.formStore.form().patchValue(this.ngxMatFormService.restore(this.ngxMatFormSchema));
   }
 
   getGridTemplate(): string {
