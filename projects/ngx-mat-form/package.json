@@ -1,6 +1,6 @@
 {
   "name": "ngx-mat-form",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "repository": {
     "url": "https://github.com/Salromag/ngx-mat-dynamic-form"
   },
@@ -23,10 +23,10 @@
   ],
   "license": "ISC",
   "peerDependencies": {
-    "@angular/common": "^20.3.6",
-    "@angular/core": "^20.3.6",
+    "@angular/common": "^21.0.0",
+    "@angular/core": "^21.0.0",
     "@angular/material": "^20.2.9",
-    "@angular/forms": "^20.3.6"
+    "@angular/forms": "^21.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"

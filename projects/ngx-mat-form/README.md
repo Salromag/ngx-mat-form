@@ -21,6 +21,7 @@ You can render forms dynamically by passing a schema that defines the fields, th
 
 | NgxMatForm Version | Angular Version | Angular Material Version | Node Version |
 |--------------------|-----------------|--------------------------|--------------|
+| `4.1.0`            | `21.x`          | `20.x`                   | `22.x`       |
 | `3.1.0`            | `20.x`          | `20.x`                   | `22.x`       |
 | `3.0.0`            | `20.x`          | `20.x`                   | `22.x`       | 
 | `2.0.0`            | `20.x`          | `19.x`                   | `22.x`       | 

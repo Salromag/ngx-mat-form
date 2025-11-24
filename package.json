@@ -1,6 +1,6 @@
 {
   "name": "ngx-mat-form",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Angular material dynamic forms",
   "repository": {
     "url": "https://github.com/Salromag/ngx-mat-dynamic-form"
@@ -32,24 +32,24 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^20.3.6",
+    "@angular/animations": "^21.0.0",
     "@angular/cdk": "^20.2.9",
-    "@angular/common": "^20.3.6",
-    "@angular/compiler": "^20.3.6",
-    "@angular/core": "^20.3.6",
-    "@angular/forms": "^20.3.6",
+    "@angular/common": "^21.0.0",
+    "@angular/compiler": "^21.0.0",
+    "@angular/core": "^21.0.0",
+    "@angular/forms": "^21.0.0",
     "@angular/material": "^20.2.9",
-    "@angular/platform-browser": "^20.3.6",
-    "@angular/platform-browser-dynamic": "^20.3.6",
-    "@angular/router": "^20.3.6",
+    "@angular/platform-browser": "^21.0.0",
+    "@angular/platform-browser-dynamic": "^21.0.0",
+    "@angular/router": "^21.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.1"
   },
   "devDependencies": {
-    "@angular/build": "^20.3.6",
-    "@angular/cli": "^20.3.6",
-    "@angular/compiler-cli": "^20.3.6",
+    "@angular/build": "^21.0.0",
+    "@angular/cli": "^21.0.0",
+    "@angular/compiler-cli": "^21.0.0",
     "@types/jasmine": "~5.1.0",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
@@ -57,8 +57,8 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "ng-packagr": "^20.0.0",
+    "ng-packagr": "^21.0.0",
     "prettier": "^3.4.2",
-    "typescript": "~5.8.3"
+    "typescript": "~5.9.3"
   }
 }
