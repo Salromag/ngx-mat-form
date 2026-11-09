@@ -25,7 +25,7 @@ export class NgxMatField {
   public retrieveOptions?: {
     parameter?: string,
     async?: boolean,
-    characters?: 3
+    characters?: number
     responseProperty?: string,
   }
 
@@ -52,7 +52,7 @@ export class NgxMatField {
     retrieveOptions?: {
       parameter?: string,
       async?: boolean,
-      characters?: 3
+      characters?: number
       responseProperty?: string,
     }) {
     this.id = id;

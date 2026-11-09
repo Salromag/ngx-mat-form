@@ -6,6 +6,29 @@ You can render forms dynamically by passing a schema that defines the fields, th
 
 ---
 
+## Changes in 6.0.0 and migration
+
+The schema format, component selectors, event names, and runtime event payloads are preserved.
+This major release corrects public event types and required-checkbox behavior:
+
+- `onSubmit`, `onFormChanges`, and `onReset` emit `NgxMatFormValue` (`Record<string, any>`), matching the plain values they already emitted. Change handlers typed as `FormGroup` to `NgxMatFormValue`. Handlers that ignore reset events need no changes. To access the actual `FormGroup`, use the component's `form` property.
+- A checkbox with `{ validator: 'required', value: true }` must now be checked. Remove that rule for optional checkboxes. Explicit `requiredTrue` rules are also supported.
+- Validators with a value of `0` now run. `required: false` continues to disable the rule.
+- Required date ranges can become valid and now respect `minDate` and `maxDate`. Existing payload keys (`name`, `name-start`, `name-end`) are retained; the legacy `name` control has no schema validators.
+- Adding/removing fields or changing their validators updates the existing form during Angular change detection, preserving values for retained controls. Both replacing the schema and mutations through `NgxMatFormService` are supported. Removed fields are removed from the emitted values.
+- Autocomplete handles HTTP errors and missing response arrays, clears stale options and cancels requests when the query becomes too short, and uses `label` by default. Updates to option sources are detected during change detection; subscriptions stop when the component is destroyed.
+- `retrieveOptions.characters` accepts any number, rather than only the literal `3`.
+
+```typescript
+import { NgxMatFormValue } from 'ngx-mat-form';
+
+handleSubmit(values: NgxMatFormValue): void {
+  console.log(values['name']);
+}
+```
+
+Run `npm run test:regression` from the repository root to build the library and run its regression tests without a browser.
+
 ## 🚀 Key Features
 
 - **Dynamic Form Generation**: Automatically generate forms based on a schema, avoiding manual field definitions.
@@ -21,7 +44,8 @@ You can render forms dynamically by passing a schema that defines the fields, th
 
 | NgxMatForm Version | Angular Version | Angular Material Version | Node Version |
 |--------------------|-----------------|--------------------------|--------------|
-| `5.0.0`            | `22.x`          | `21.x`                   | `26.x`       |
+| `6.0.0`            | `22.x`          | `22.x`                   | `^22.22.3`, `^24.15.0` or `>=26.0.0` |
+| `5.0.0`            | `22.x`          | `22.x`                   | `^22.22.3`, `^24.15.0` or `>=26.0.0` |
 | `4.1.0`            | `21.x`          | `20.x`                   | `22.x`       |
 | `3.1.0`            | `20.x`          | `20.x`                   | `22.x`       |
 | `3.0.0`            | `20.x`          | `20.x`                   | `22.x`       | 
@@ -67,9 +91,9 @@ export class AppModule {}
 
 ### Outputs
 
-- **`onFormChanges`** (`FormGroup`): Emits when the form value changes.
-- **`onSubmit`** (`FormGroup`): Emits when the form is submitted.
-- **`onReset`** (`void`): Emits when the form is reset.
+- **`onFormChanges`** (`NgxMatFormValue`): Emits when the form value changes.
+- **`onSubmit`** (`NgxMatFormValue`): Emits when the form is submitted.
+- **`onReset`** (`NgxMatFormValue`): Emits when the form is reset.
 
 Example usage:
 
@@ -103,7 +127,7 @@ Defines the configuration for dynamic forms.
 |-----------|------|-------------|----------|
 | `id` | `string` | Unique form identifier | `'DynamicFormSchemaId'` |
 | `name` | `string` | Name of the form | `'DynamicFormSchemaName'` |
-| `restore` | `boolean` | Restores form state on initialization | `true` |
+| `restoreForm` | `boolean` | Restores form state on initialization | `true` |
 | `storeKey` | `string` | Key used for session storage | `'ngx.mat.form.schema.myfeature'` |
 | `labelButtons` | `object` | Labels for action buttons | `{ submit: 'Submit', clear: 'Clear' }` |
 | `columns` | `number` | Grid column count | `4` |
@@ -180,7 +204,7 @@ Utility service to interact with or modify a form schema.
 ## 🧩 Example Schema
 
 ```typescript
-export const DynamicFormSchema: NgxMatDynamicForm = {
+export const DynamicFormSchema: NgxMatFormSchema = {
   id: 'DynamicFormSchemaId',
   name: 'DynamicFormSchemaName',
   restoreForm: true,

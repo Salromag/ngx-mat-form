@@ -1,6 +1,6 @@
 {
   "name": "ngx-mat-form",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "Angular material dynamic forms",
   "repository": {
     "url": "https://github.com/Salromag/ngx-mat-dynamic-form"
@@ -28,7 +28,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:regression": "npm run build -- ngx-mat-form && node --test tests/*.test.mjs"
   },
   "private": true,
   "dependencies": {

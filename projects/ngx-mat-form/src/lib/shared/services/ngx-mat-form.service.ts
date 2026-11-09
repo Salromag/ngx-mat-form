@@ -26,8 +26,10 @@ export class NgxMatFormService {
   addFieldValidators(field: NgxMatField): ValidatorFn[] {
     const validators: ValidatorFn[] = [];
     field.validators?.forEach(config => {
-      if (config.validator && config.value) {
-        const validatorFunc = this.getValidator(config.validator, config.value);
+      if (config.validator && config.value !== undefined && config.value !== null && config.value !== false) {
+        const validatorFunc = config.validator === 'required' && field.type === NgxFieldTypes.Checkbox
+          ? Validators.requiredTrue
+          : this.getValidator(config.validator, config.value);
         if (validatorFunc) {
           validators.push(validatorFunc);
         }
@@ -100,6 +102,8 @@ export class NgxMatFormService {
         return Validators.min(value);
       case 'required':
         return Validators.required;
+      case 'requiredTrue':
+        return Validators.requiredTrue;
       case 'pattern':
         return Validators.pattern(value);
       case 'minLength':

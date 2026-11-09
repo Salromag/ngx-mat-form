@@ -1,7 +1,11 @@
-import {Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, DoCheck, OnDestroy, OnInit, Output} from '@angular/core';
 import {NgxFieldTypes, NgxMatField, NgxMatFormSchema, NgxMatFormService} from "../shared";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, ValidatorFn} from "@angular/forms";
+import {NgxMatFormConfig} from "../shared/models/ngx-mat-form-config.model";
+import {Subscription} from "rxjs";
 import {CONFIG} from "../shared/injection-token/config-token";
+
+export type NgxMatFormValue = Record<string, any>;
 
 @Component({
   selector: 'ngx-mat-form',
@@ -9,18 +13,21 @@ import {CONFIG} from "../shared/injection-token/config-token";
   templateUrl: './ngx-mat-form.component.html',
   styleUrls: ['./ngx-mat-form.component.scss']
 })
-export class NgxMatFormComponent implements OnInit {
+export class NgxMatFormComponent implements OnInit, DoCheck, OnDestroy {
   @Input() ngxMatFormSchema: NgxMatFormSchema;
-  @Output() onSubmit: EventEmitter<FormGroup> = new EventEmitter();
-  @Output() onReset: EventEmitter<void> = new EventEmitter();
-  @Output() onFormChanges: EventEmitter<FormGroup> = new EventEmitter();
+  @Output() onSubmit: EventEmitter<NgxMatFormValue> = new EventEmitter();
+  @Output() onReset: EventEmitter<NgxMatFormValue> = new EventEmitter();
+  @Output() onFormChanges: EventEmitter<NgxMatFormValue> = new EventEmitter();
 
   form: FormGroup;
+  private formChangesSubscription?: Subscription;
+  private fieldSnapshot: unknown[] = [];
+  private schemaValidators = new Map<string, ValidatorFn[]>();
 
   constructor(
     private formBuilder: FormBuilder,
     private ngxMatFormService: NgxMatFormService,
-    @Inject(CONFIG) private config: NgxMatFormService,) {
+    @Inject(CONFIG) private config: NgxMatFormConfig,) {
   }
 
   ngOnInit() {
@@ -35,15 +42,61 @@ export class NgxMatFormComponent implements OnInit {
    * Create the dynamic form controls
    */
   createForm(): void {
-    const formControls: any = {};
+    this.form = this.formBuilder.group({});
+    this.schemaValidators.clear();
+    this.syncFields();
+  }
+
+  ngDoCheck(): void {
+    if (!this.form) return;
+    const snapshot = this.ngxMatFormSchema.fields.flatMap(field => [
+      field.name, field.type, field.validators?.length,
+      ...(field.validators ?? []).flatMap(rule => [rule.validator, rule.value])
+    ]);
+    if (snapshot.length !== this.fieldSnapshot.length ||
+      snapshot.some((value, index) => !Object.is(value, this.fieldSnapshot[index]))) {
+      this.syncFields();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.formChangesSubscription?.unsubscribe();
+  }
+
+  private syncFields(): void {
+    const controls = new Map<string, ValidatorFn[]>();
     this.ngxMatFormSchema.fields.forEach((field: NgxMatField) => {
-      formControls[field.name] = [null, this.ngxMatFormService.addFieldValidators(field)];
+      const validators = this.ngxMatFormService.addFieldValidators(field);
+      // Keep the legacy range key in emitted values, without an invisible required control.
+      controls.set(field.name, field.type === NgxFieldTypes.DateRange ? [] : validators);
       if (field.type === NgxFieldTypes.DateRange) {
-        formControls[field.name + '-start'] = [null, this.ngxMatFormService.addFieldValidators(field)]
-        formControls[field.name + '-end'] = [null, this.ngxMatFormService.addFieldValidators(field)]
+        controls.set(field.name + '-start', validators);
+        controls.set(field.name + '-end', validators);
       }
     });
-    this.form = this.formBuilder.group(formControls);
+    Object.keys(this.form.controls).forEach(name => {
+      if (!controls.has(name)) {
+        this.form.removeControl(name, {emitEvent: false});
+        this.schemaValidators.delete(name);
+      }
+    });
+    controls.forEach((validators, name) => {
+      let control = this.form.controls[name];
+      if (!control) {
+        control = this.formBuilder.control(null);
+        this.form.addControl(name, control, {emitEvent: false});
+      }
+      // Preserve validators installed by Material directives or the consumer.
+      control.removeValidators(this.schemaValidators.get(name) ?? []);
+      control.addValidators(validators);
+      control.updateValueAndValidity({onlySelf: true, emitEvent: false});
+      this.schemaValidators.set(name, validators);
+    });
+    this.fieldSnapshot = this.ngxMatFormSchema.fields.flatMap(field => [
+      field.name, field.type, field.validators?.length,
+      ...(field.validators ?? []).flatMap(rule => [rule.validator, rule.value])
+    ]);
+    this.form.updateValueAndValidity();
   }
 
   submit(): void {
@@ -59,7 +112,8 @@ export class NgxMatFormComponent implements OnInit {
   }
 
   onFormChange(): void {
-    this.form.valueChanges.subscribe((value: any) => {
+    this.formChangesSubscription?.unsubscribe();
+    this.formChangesSubscription = this.form.valueChanges.subscribe((value: NgxMatFormValue) => {
       this.onFormChanges.emit(value);
     })
   }

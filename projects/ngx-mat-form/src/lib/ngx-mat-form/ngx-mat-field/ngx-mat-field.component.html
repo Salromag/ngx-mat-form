@@ -42,7 +42,7 @@
       @case ('daterange') {
         <mat-form-field>
           <mat-label>{{ field.label }}</mat-label>
-          <mat-date-range-input [formGroup]="formGroup" [rangePicker]="picker">
+          <mat-date-range-input [formGroup]="formGroup" [rangePicker]="picker" [min]="field.minDate" [max]="field.maxDate">
             <input matStartDate [id]="field.id + '-start'" [formControlName]="field.name + '-start'" placeholder="Start date">
             <input matEndDate [id]="field.id + '-end'" [formControlName]="field.name + '-end'" placeholder="End date">
           </mat-date-range-input>
